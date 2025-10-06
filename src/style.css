@@ -1,0 +1,33 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-capivara-off-white text-capivara-stone;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-capivara-green-lake text-white px-6 py-3 rounded-lg font-medium 
+           hover:opacity-90 transition-all duration-200 active:scale-95
+           focus:outline-none focus:ring-2 focus:ring-capivara-green-lake focus:ring-offset-2;
+  }
+
+  .btn-secondary {
+    @apply bg-capivara-sky-blue text-white px-6 py-3 rounded-lg font-medium 
+           hover:opacity-90 transition-all duration-200 active:scale-95
+           focus:outline-none focus:ring-2 focus:ring-capivara-sky-blue focus:ring-offset-2;
+  }
+
+  .input-field {
+    @apply w-full px-4 py-3 rounded-lg border border-gray-300 
+           focus:outline-none focus:ring-2 focus:ring-capivara-sky-blue focus:border-transparent
+           transition-all duration-200 bg-white;
+  }
+
+  .card {
+    @apply bg-white rounded-2xl shadow-lg p-6;
+  }
+}

@@ -1,0 +1,10 @@
+<!-- PWA Icons - Replace with actual icons -->
+<!-- This is a placeholder SVG that can be replaced with your custom icon -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192" width="192" height="192">
+    <rect width="192" height="192" fill="#7A5C3E" />
+    <path fill="#fff" d="M96 144c26.5 0 48-21.5 48-48S122.5 48 96 48 48 69.5 48 96s21.5 48 48 48z" />
+    <circle cx="84" cy="88" r="6" fill="#7A5C3E" />
+    <circle cx="108" cy="88" r="6" fill="#7A5C3E" />
+    <path fill="none" stroke="#7A5C3E" stroke-width="3" stroke-linecap="round"
+        d="M80 108c4 4 8 6 16 6s12-2 16-6" />
+</svg>
