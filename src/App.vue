@@ -22,7 +22,6 @@
         @close="removeToast(toast.id)"
       />
     </div>
-
     <router-view />
   </div>
 </template>
@@ -40,7 +39,7 @@ const router = useRouter();
 const { isOnline } = useOnline();
 const { toasts, removeToast, warning, success } = useToast();
 
-onMounted(() => {
+onMounted(async () => {
   // Verifica se há sessão salva
   authStore.checkSession();
 

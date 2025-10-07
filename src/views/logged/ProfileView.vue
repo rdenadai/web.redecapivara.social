@@ -5,7 +5,7 @@
         v-if="profileData.banner"
         :src="profileData.banner"
         alt="Cover"
-        class="w-full h-fit object-cover rounded-t-lg"
+        class="w-full max-h-64 object-cover rounded-t-lg"
       />
       <div v-else class="w-full h-32 bg-capivara-stone/10 rounded-t-lg"></div>
     </div>

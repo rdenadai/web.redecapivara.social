@@ -1,6 +1,9 @@
 <!-- This is a component that should render the text / html post response of someone, the post might contain \n for line break, @handle and links... we should parse this things all other items of the post is render in other parts -->
 <template>
-  <div v-html="parsedContent" class="whitespace-pre-wrap text-black/70"></div>
+  <div
+    v-html="parsedContent"
+    class="whitespace-pre-wrap break-word text-black/70"
+  ></div>
 </template>
 
 <script setup>

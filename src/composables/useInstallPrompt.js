@@ -7,23 +7,10 @@ export function useInstallPrompt() {
 
   function onBeforeInstallPrompt(e) {
     // Prevent the mini-infobar from appearing on mobile
+    console.log("beforeinstallprompt event fired");
     e.preventDefault();
     deferredPrompt.value = e;
     isInstallable.value = true;
-    // Prompt the user with a simple confirmation dialog
-    // If they accept, trigger the install flow automatically
-    try {
-      const host = window.location.hostname;
-      const accept = confirm(
-        `Deseja instalar o aplicativo Rede Capivara no dispositivo?`
-      );
-      if (accept) {
-        // trigger install
-        promptInstall();
-      }
-    } catch (err) {
-      console.error("Auto-install prompt failed:", err);
-    }
   }
 
   function onAppInstalled() {
@@ -33,6 +20,7 @@ export function useInstallPrompt() {
   }
 
   onMounted(() => {
+    console.log("Setting up install prompt listeners");
     window.addEventListener("beforeinstallprompt", onBeforeInstallPrompt);
     window.addEventListener("appinstalled", onAppInstalled);
   });
@@ -43,18 +31,23 @@ export function useInstallPrompt() {
   });
 
   async function promptInstall() {
-    if (!deferredPrompt.value) return null;
     try {
-      deferredPrompt.value.prompt();
-      const choice = await deferredPrompt.value.userChoice;
-      // Clear prompt regardless of outcome
-      const outcome = choice.outcome;
-      deferredPrompt.value = null;
-      isInstallable.value = false;
-      return outcome;
+      const accept = confirm(
+        `Deseja instalar o aplicativo Rede Capivara no dispositivo?`
+      );
+      if (accept) {
+        try {
+          deferredPrompt.value.prompt();
+          const choice = await deferredPrompt.value.userChoice;
+          // Clear prompt regardless of outcome
+          deferredPrompt.value = null;
+          isInstallable.value = false;
+        } catch (err) {
+          console.error("Install prompt failed:", err);
+        }
+      }
     } catch (err) {
-      console.error("Install prompt failed:", err);
-      return null;
+      console.error("Auto-install prompt failed:", err);
     }
   }
 

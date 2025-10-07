@@ -18,6 +18,15 @@
               >
             </div>
           </router-link>
+
+          <button
+            v-if="isInstallable"
+            @click="promptInstall"
+            type="button"
+            class="text-white bg-capivara-green-lake hover:bg-capivara-sky-blue focus:ring-4 focus:outline-none focus:ring-capivara-green-lake/50 font-medium rounded-lg text-sm px-4 py-2 text-center inline-flex items-center transition-all active:scale-95"
+          >
+            Instalar
+          </button>
         </div>
       </div>
     </header>
@@ -229,11 +238,14 @@
 import { ref, reactive, computed } from "vue";
 import { useAuthStore } from "@/stores/auth";
 import { useRouter } from "vue-router";
+import { useInstallPrompt } from "@/composables/useInstallPrompt";
 import { useToast } from "@/composables/useToast";
 
 const authStore = useAuthStore();
 const router = useRouter();
 const { success, error: showError } = useToast();
+
+const { isInstallable, promptInstall } = useInstallPrompt();
 
 const form = reactive({
   identifier: "",
