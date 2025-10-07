@@ -13,7 +13,7 @@
 ## 🚀 Tecnologias
 
 - **Vue.js 3** - Framework progressivo JavaScript
-- **Vite** - Build tool e dev server ultrarrápido
+- **Vite** - Build tool e dev server ultrarápido
 - **Pinia** - State management moderno para Vue
 - **Vue Router** - Roteamento SPA
 - **Tailwind CSS** - Framework de estilização utility-first
