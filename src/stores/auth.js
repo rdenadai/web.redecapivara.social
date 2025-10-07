@@ -86,6 +86,23 @@ export const useAuthStore = defineStore("auth", () => {
     clearSession();
   }
 
+  function jwtIsValid() {
+    const token = accessToken.value;
+    if (!token) return false;
+    const payload = token.split(".")[1];
+    if (!payload) return false;
+    try {
+      const decoded = JSON.parse(atob(payload));
+      const exp = decoded.exp;
+      if (!exp) return false;
+      const now = Math.floor(Date.now() / 1000);
+      return exp > now;
+    } catch (e) {
+      console.error("Erro ao validar JWT:", e);
+      return false;
+    }
+  }
+
   return {
     user,
     server,
@@ -97,5 +114,6 @@ export const useAuthStore = defineStore("auth", () => {
     logout,
     checkSession,
     saveSession,
+    jwtIsValid,
   };
 });

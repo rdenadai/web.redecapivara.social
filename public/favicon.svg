@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Simple favicon wrapper that reuses capivara-icon.svg artwork.
+     This file is sized to 64x64 and centers the original artwork.
+     Browsers that support SVG favicons will pick this up when linked as /favicon.svg
+-->
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" role="img"
+    aria-label="Rede Capivara">
+    <rect width="100%" height="100%" fill="transparent" />
+    <!-- Embed the capivara artwork using <image> so we can reuse the existing file without copying
+       If the server serves /capivara-icon.svg (public/), this will load it. If you want a standalone
+       favicon, replace the <image> with the inline SVG content of capivara-icon.svg. -->
+    <image href="/capivara-icon.svg" x="0" y="0" width="64" height="64"
+        preserveAspectRatio="xMidYMid meet" />
+</svg>

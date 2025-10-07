@@ -38,27 +38,22 @@
 </template>
 
 <script setup>
-import { computed, onMounted } from "vue";
+import { computed } from "vue";
 import { useRoute } from "vue-router";
-import { useAuthStore } from "@/stores/auth";
 import { getDidFromHandle } from "@/services/atproto";
-import { getAuthorFeed } from "@/services/atproto";
 import ProfileView from "./ProfileView.vue";
 import MenuView from "../MenuView.vue";
 import FeedView from "./FeedView.vue";
 
 const route = useRoute();
-const authStore = useAuthStore();
+
+const handle = computed(() => route.params.handle || null);
 
 const did = computed(() => {
-  const handle = route.params.handle;
-  if (handle && handle.includes("@")) {
+  if (handle.value && handle.value.includes("@")) {
     // If handle is present and looks like a handle, resolve to DID
-    getDidFromHandle("https://bsky.social", null, handle).then(
-      (resolvedDid) => {
-        console.log("Resolved DID:", resolvedDid);
-        return resolvedDid;
-      }
+    getDidFromHandle("https://bsky.social", null, handle.value).then(
+      (resolvedDid) => resolvedDid
     );
   }
   return route.params.handle || null;

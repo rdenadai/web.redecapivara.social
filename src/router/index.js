@@ -55,6 +55,12 @@ router.beforeEach((to, from, next) => {
   const authStore = useAuthStore();
   const requiresAuth = to.matched.some((record) => record.meta.requiresAuth);
 
+  if (authStore.accessToken && !authStore.jwtIsValid()) {
+    authStore.logout();
+  } else if (!authStore.accessToken) {
+    authStore.checkSession();
+  }
+
   if (requiresAuth && !authStore.isAuthenticated) {
     next("/login");
   } else if (to.path === "/login" && authStore.isAuthenticated) {

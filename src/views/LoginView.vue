@@ -4,28 +4,20 @@
     <header class="bg-white shadow-sm">
       <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between items-center h-16">
-          <div class="flex items-center space-x-3">
-            <div
-              class="w-10 h-10 bg-capivara-brown rounded-lg flex items-center justify-center"
-            >
-              <svg
-                class="w-6 h-6 text-white"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
+          <router-link to="/">
+            <div class="flex items-center space-x-3">
+              <div class="flex items-center justify-center">
+                <img
+                  src="/capivara-icon.svg"
+                  alt="Rede Capivara Logo"
+                  class="w-12 h-12"
+                />
+              </div>
+              <span class="text-xl font-bold text-capivara-stone"
+                >Rede Capivara</span
               >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"
-                ></path>
-              </svg>
             </div>
-            <span class="text-xl font-bold text-capivara-stone"
-              >Rede Capivara</span
-            >
-          </div>
+          </router-link>
         </div>
       </div>
     </header>
@@ -149,30 +141,30 @@
           <div
             class="mt-6 pt-6 border-t border-gray-200 text-center text-sm text-capivara-stone/60"
           >
-            <p class="mb-2">
+            <div class="mb-2">
               Primeira vez aqui?
-              <p><router-link
-                to="/register"
-                class="inline-flex items-center text-capivara-sky-blue hover:text-capivara-green-lake transition-colors font-medium"
-              >
-                Crie uma conta</router-link
-              >
-              ou
-              <router-link
-                to="/migrate"
-                class="inline-flex items-center text-capivara-sky-blue hover:text-capivara-green-lake transition-colors font-medium"
-              >
-                Migre do Bluesky
-              </router-link></p>
-            </p>
+              <p>
+                <router-link
+                  to="/register"
+                  class="inline-flex items-center text-capivara-sky-blue hover:text-capivara-green-lake transition-colors font-medium"
+                >
+                  Crie uma conta</router-link
+                >
+                ou
+                <router-link
+                  to="/migrate"
+                  class="inline-flex items-center text-capivara-sky-blue hover:text-capivara-green-lake transition-colors font-medium"
+                >
+                  Migre do Bluesky
+                </router-link>
+              </p>
+            </div>
           </div>
 
           <hr class="mt-8" />
           <!-- Doação PIX -->
           <div class="mt-8">
-            <div
-              class="from-capivara-brown/5 to-capivara-green-lake/5"
-            >
+            <div class="from-capivara-brown/5 to-capivara-green-lake/5">
               <div class="text-center md:w-[40em] mx-auto">
                 <h3 class="text-lg font-bold text-capivara-stone mb-2">
                   💚 Apoie o Projeto
@@ -181,10 +173,13 @@
                   Ajude a manter a Rede Capivara no ar!
                 </p>
                 <p class="text-capivara-stone/70 text-sm mb-4">
-                  Se você gosta do que fazemos e quer contribuir para a continuidade e melhoria da plataforma, considere fazer uma doação via PIX.
+                  Se você gosta do que fazemos e quer contribuir para a
+                  continuidade e melhoria da plataforma, considere fazer uma
+                  doação via PIX.
                 </p>
                 <p class="text-capivara-stone/70 text-sm mb-4">
-                  Toda a infraestrutura é custeada por mim (Rodolfo De Nadai), rodando 100% em servidores no Brasil (Magalu Cloud).
+                  Toda a infraestrutura é custeada por mim (Rodolfo De Nadai),
+                  rodando 100% em servidores no Brasil (Magalu Cloud).
                 </p>
 
                 <!-- QR Code -->

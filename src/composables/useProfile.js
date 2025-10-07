@@ -1,5 +1,5 @@
 // Composable to load and manage user profile data
-import { ref, computed, onMounted } from "vue";
+import { ref, computed, watchEffect } from "vue";
 import { getProfile } from "@/services/atproto";
 import { useAuthStore } from "@/stores/auth";
 
@@ -26,9 +26,7 @@ export function useProfile(did) {
   const loading = ref(false);
   const error = ref(null);
 
-  const resolvedDid = computed(() => {
-    return did || authStore.did;
-  });
+  const resolvedDid = computed(() => did?.value || authStore.did);
 
   async function loadProfileStats() {
     loading.value = true;
@@ -61,8 +59,10 @@ export function useProfile(did) {
   }
 
   // Buscar dados do perfil ao montar o componente
-  onMounted(async () => {
-    await loadProfileStats();
+  watchEffect(() => {
+    if (resolvedDid.value) {
+      loadProfileStats();
+    }
   });
 
   return {
