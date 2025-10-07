@@ -13,9 +13,14 @@
           class="w-12 h-12 rounded-full object-cover mt-1"
         />
         <div class="flex-1">
-          <div class="flex items-center space-x-2">
+          <div
+            class="flex flex-col md:flex-row items-start md:items-center md:space-x-2"
+          >
             <router-link
-              :to="`/${post.post.author?.handle}/profile`"
+              :to="`/${handleLink(
+                post.post.author?.handle,
+                post.post.author?.did
+              )}/profile`"
               class="font-bold text-black/80 hover:underline"
               >{{
                 post.post.author?.displayName || post.post.author?.handle
@@ -25,51 +30,23 @@
               >@{{ post.post.author?.handle }}</span
             >
             <span class="text-sm text-capivara-stone/60 font-mono"
-              >• {{ new Date(post.post.indexedAt).toLocaleDateString() }}</span
+              ><span class="hidden md:inline-block">•&nbsp;</span
+              >{{ new Date(post.post.indexedAt).toLocaleDateString() }}</span
             >
           </div>
-          <p
-            class="mt-1 text-black/70 whitespace-pre-wrap"
-            v-html="post.post.record?.text?.replaceAll('\n', '<br />')"
-          ></p>
-          <!-- If we have embed images -->
-          <div v-if="post.post.embed?.images?.length" class="mt-2 gap-2">
-            <router-link
-              v-for="(image, idx) in post.post.embed.images"
-              :key="image.thumb"
-              :to="image.fullsize || image.thumb"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <img
-                :src="image.thumb"
-                alt="Embedded Image"
-                class="rounded max-h-60 object-cover"
-              />
-            </router-link>
-          </div>
-          <!-- If we have an external embed -->
-          <div
-            v-if="post.post.embed?.external"
-            class="mt-2 p-2 border border-capivara-stone/20 rounded-lg"
-          >
-            <a
-              :href="post.post.embed.external.uri"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="text-capivara-brown hover:underline"
-            >
-              {{
-                post.post.embed.external.title || post.post.embed.external.uri
-              }}
-            </a>
-            <p
-              v-if="post.post.embed.external.description"
-              class="text-sm text-black/70 mt-1"
-            >
-              {{ post.post.embed.external.description }}
-            </p>
-          </div>
+          <ParsedPost
+            :content="post.post.record?.text"
+            :embed="post.post.record.embed"
+          />
+          <ImageList
+            v-if="post.post?.embed?.images?.length"
+            :images="post.post.embed.images"
+          />
+          <ExternalElement
+            v-if="post.post?.record?.embed?.external"
+            :external="post.post.record.embed.external"
+          />
+
           <!-- Add a small bar with icons for comments, repost, likes (it shows the icon and numbers ) -->
           <div class="flex items-center space-x-4 mt-3 text-capivara-stone/60">
             <div
@@ -148,13 +125,20 @@
 </template>
 
 <script setup>
-import { defineProps, ref, onMounted, onUnmounted } from "vue";
-import { useRouter } from "vue-router";
-import { useToast } from "@/composables/useToast";
+import {
+  defineProps,
+  ref,
+  onMounted,
+  onUnmounted,
+  toRefs,
+  watchEffect,
+} from "vue";
 import { useAuthStore } from "@/stores/auth";
 import { getAuthorFeed } from "@/services/atproto";
+import ImageList from "@/components/ImageList.vue";
+import ExternalElement from "@/components/ExternalElement.vue";
+import ParsedPost from "@/components/ParsedPost.vue";
 
-const router = useRouter();
 const authStore = useAuthStore();
 
 const feed = ref([]);
@@ -169,15 +153,20 @@ const props = defineProps({
   },
 });
 
+const { did } = toRefs(props);
+
+const handleLink = (handle, did) => {
+  return handle && handle !== "handle.invalid" ? handle : did;
+};
+
 const fetchInitialFeed = async () => {
   // Fetch initial feed based on props.did
-  if (props.did) {
+  if (did?.value) {
     const authorFeed = await getAuthorFeed(
       authStore.server,
       authStore.accessToken,
-      props.did
+      did.value
     );
-    console.log("Author Feed:", authorFeed);
     // Populate feed, cursor, noMore based on authorFeed response
     if (authorFeed.feed && authorFeed.feed.length > 0) {
       feed.value = authorFeed.feed;
@@ -207,7 +196,7 @@ const loadMoreFeed = async () => {
     const authorFeed = await getAuthorFeed(
       authStore.server,
       authStore.accessToken,
-      props.did,
+      did.value,
       25,
       cursor.value
     );
@@ -232,8 +221,14 @@ const onScroll = async () => {
 };
 
 onMounted(async () => {
-  await fetchInitialFeed();
   window.addEventListener("scroll", onScroll);
+});
+
+watchEffect(async () => {
+  if (did?.value) {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    await fetchInitialFeed();
+  }
 });
 
 onUnmounted(() => {

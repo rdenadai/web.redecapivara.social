@@ -35,46 +35,18 @@
                   >{{ new Date(post.indexedAt).toLocaleDateString() }}</span
                 >
               </div>
-              <p
-                class="mt-1 text-black/70 whitespace-pre-wrap"
-                v-html="post.record?.text?.replaceAll('\n', '<br />')"
-              ></p>
-              <!-- If we have embed images -->
-              <div v-if="post.embed?.images?.length" class="mt-2 gap-2">
-                <router-link
-                  v-for="(image, idx) in post.embed.images"
-                  :key="image.thumb"
-                  :to="image.fullsize || image.thumb"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <img
-                    :src="image.thumb"
-                    alt="Embedded Image"
-                    class="rounded max-h-60 object-cover"
-                  />
-                </router-link>
-              </div>
-              <!-- If we have an external embed -->
-              <div
-                v-if="post.embed?.external"
-                class="mt-2 p-2 border border-capivara-stone/20 rounded-lg"
-              >
-                <a
-                  :href="post.embed.external.uri"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="text-capivara-brown hover:underline"
-                >
-                  {{ post.embed.external.title || post.embed.external.uri }}
-                </a>
-                <p
-                  v-if="post.embed.external.description"
-                  class="text-sm text-black/70 mt-1"
-                >
-                  {{ post.embed.external.description }}
-                </p>
-              </div>
+              <ParsedPost
+                :content="post.record?.text"
+                :embed="post.record.embed"
+              />
+              <ImageList
+                v-if="post?.embed?.images"
+                :images="post.embed.images"
+              />
+              <ExternalElement
+                v-if="post?.record?.embed?.external"
+                :external="post.record.embed.external"
+              />
               <!-- Add a small bar with icons for comments, repost, likes (it shows the icon and numbers ) -->
               <div
                 class="flex items-center space-x-4 mt-3 text-capivara-stone/60"
@@ -169,7 +141,9 @@ import { useToast } from "@/composables/useToast";
 import { useAuthStore } from "@/stores/auth";
 import { useProfile } from "@/composables/useProfile";
 import { getTimeline } from "@/services/atproto";
-import { dedupeAppend } from "@/utils";
+import ImageList from "@/components/ImageList.vue";
+import ExternalElement from "@/components/ExternalElement.vue";
+import ParsedPost from "@/components/ParsedPost.vue";
 
 const router = useRouter();
 const { error: showError } = useToast();

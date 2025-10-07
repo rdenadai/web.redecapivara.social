@@ -8,7 +8,7 @@
       <div class="card mb-8 bg-gradient-to-r text-white">
         <div>
           <h1 class="text-2xl font-bold mb-2 text-black/80">
-            Seus Seguidores ({{ stats.followers }})
+            Seguidores ({{ stats.followers }})
           </h1>
           <div class="mt-6 space-y-4">
             <div
@@ -106,11 +106,11 @@ const route = useRoute();
 const router = useRouter();
 const { error: showError } = useToast();
 const authStore = useAuthStore();
-const { profileData, stats } = useProfile();
+
+const handle = computed(() => route.params.handle || null);
 
 const did = computed(() => {
-  const handle = route.params.handle;
-  if (handle && handle.includes("@")) {
+  if (handle?.value && handle?.value.includes("@")) {
     // If handle is present and looks like a handle, resolve to DID
     getDidFromHandle("https://bsky.social", null, handle).then(
       (resolvedDid) => {
@@ -122,36 +122,14 @@ const did = computed(() => {
   return route.params.handle || null;
 });
 
+const { profileData, stats } = useProfile(did);
+
 const followers = ref([]);
 const cursor = ref(null);
 const loadingMore = ref(false);
 const noMore = ref(false);
 // Keep a set of DIDs that this account follows to detect mutual follows
 const followsSet = ref(new Set());
-
-// Simple throttle utility: ensures fn runs at most once per wait ms
-function throttle(fn, wait = 250) {
-  let last = 0;
-  let timeout = null;
-  return (...args) => {
-    const now = Date.now();
-    const remaining = wait - (now - last);
-    if (remaining <= 0) {
-      if (timeout) {
-        clearTimeout(timeout);
-        timeout = null;
-      }
-      last = now;
-      fn(...args);
-    } else if (!timeout) {
-      timeout = setTimeout(() => {
-        last = Date.now();
-        timeout = null;
-        fn(...args);
-      }, remaining);
-    }
-  };
-}
 
 async function fetchInitialFollowers() {
   if (!profileData.value) {
@@ -233,14 +211,12 @@ function onScroll() {
   }
 }
 
-const throttledOnScroll = throttle(onScroll, 300);
-
 onMounted(() => {
   fetchInitialFollowers();
-  window.addEventListener("scroll", throttledOnScroll);
+  window.addEventListener("scroll", onScroll);
 });
 
 onUnmounted(() => {
-  window.removeEventListener("scroll", throttledOnScroll);
+  window.removeEventListener("scroll", onScroll);
 });
 </script>

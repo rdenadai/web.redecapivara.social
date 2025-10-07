@@ -7,7 +7,7 @@
       <div class="card mb-8">
         <div>
           <h1 class="text-2xl font-bold mb-2 text-black/80">
-            Pessoas que você segue ({{ stats.following }})
+            Seguindo ({{ stats.following }})
           </h1>
 
           <div class="mt-6 space-y-4">
@@ -110,21 +110,20 @@ const route = useRoute();
 const router = useRouter();
 const { error: showError } = useToast();
 const authStore = useAuthStore();
-const { profileData, stats } = useProfile();
+
+const handle = computed(() => route.params.handle || null);
 
 const did = computed(() => {
-  const handle = route.params.handle;
-  if (handle && handle.includes("@")) {
+  if (handle?.value && handle?.value.includes("@")) {
     // If handle is present and looks like a handle, resolve to DID
     getDidFromHandle("https://bsky.social", null, handle).then(
-      (resolvedDid) => {
-        console.log("Resolved DID:", resolvedDid);
-        return resolvedDid;
-      }
+      (resolvedDid) => resolvedDid
     );
   }
   return route.params.handle || null;
 });
+
+const { profileData, stats } = useProfile(did);
 
 const following = ref([]);
 const cursor = ref(null);
