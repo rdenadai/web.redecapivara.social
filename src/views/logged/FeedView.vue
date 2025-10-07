@@ -12,7 +12,7 @@
           alt="Avatar"
           class="w-12 h-12 rounded-full object-cover mt-1"
         />
-        <div class="flex-1">
+        <div class="flex flex-1 flex-col">
           <div
             class="flex flex-col md:flex-row items-start md:items-center md:space-x-2"
           >

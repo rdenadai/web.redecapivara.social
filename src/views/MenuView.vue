@@ -3,19 +3,20 @@
   <header class="bg-white shadow-sm sticky top-0 z-50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex justify-between items-center h-16">
-        <!-- Logo -->
-        <div class="flex items-center space-x-3">
-          <div class="flex items-center justify-center">
-            <img
-              src="/capivara-icon.svg"
-              alt="Rede Capivara Logo"
-              class="w-12 h-12"
-            />
+        <!-- Logo --><router-link to="/">
+          <div class="flex items-center space-x-3">
+            <div class="flex items-center justify-center">
+              <img
+                src="/capivara-icon.svg"
+                alt="Rede Capivara Logo"
+                class="w-12 h-12"
+              />
+            </div>
+            <span class="text-xl font-bold text-capivara-stone">
+              Rede Capivara
+            </span>
           </div>
-          <span class="text-xl font-bold text-capivara-stone">
-            <router-link to="/"> Rede Capivara </router-link>
-          </span>
-        </div>
+        </router-link>
 
         <!-- User menu -->
         <div class="flex items-center space-x-4">
