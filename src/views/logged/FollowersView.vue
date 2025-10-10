@@ -3,14 +3,14 @@
     <MenuView />
 
     <!-- Main Content -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <main class="max-w-7xl mx-auto md:px-4 md:py-4">
       <!-- Welcome Section -->
       <div class="card mb-8 bg-gradient-to-r text-white">
         <div>
-          <h1 class="text-2xl font-bold mb-2 text-black/80">
-            Seguidores ({{ stats.followers }})
+          <h1 class="text-2xl font-bold mb-2 text-black/80 px-4 py-4">
+            Seguidores ({{ statsData.followers }})
           </h1>
-          <div class="mt-6 space-y-4">
+          <div class="mt-2 space-y-4">
             <div
               v-for="person in followers"
               :key="person.did"
@@ -72,20 +72,6 @@
             </div>
           </div>
         </div>
-
-        <div class="mt-8">
-          <div class="from-capivara-brown/5 to-capivara-green-lake/5">
-            <div class="text-center">
-              <!-- Footer -->
-              <div class="mt-5 pt-6 border-t border-capivara-stone/10">
-                <p class="text-xs text-capivara-stone/50 mt-1">
-                  💚 Apoie o Projeto, cada contribuição ajuda a manter o projeto
-                  rodando! 🙏
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
     </main>
   </div>
@@ -112,17 +98,14 @@ const handle = computed(() => route.params.handle || null);
 const did = computed(() => {
   if (handle?.value && handle?.value.includes("@")) {
     // If handle is present and looks like a handle, resolve to DID
-    getDidFromHandle("https://bsky.social", null, handle).then(
-      (resolvedDid) => {
-        console.log("Resolved DID:", resolvedDid);
-        return resolvedDid;
-      }
+    getDidFromHandle(authStore.server, authStore.accessToken, handle).then(
+      (resolvedDid) => resolvedDid
     );
   }
   return route.params.handle || null;
 });
 
-const { profileData, stats } = useProfile(did);
+const { profileData, statsData } = useProfile(did);
 
 const followers = ref([]);
 const cursor = ref(null);

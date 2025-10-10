@@ -3,13 +3,12 @@
     <MenuView />
 
     <!-- Main Content -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <div class="card mb-8">
+    <main class="max-w-7xl mx-auto md:px-4 md:py-4">
+      <div class="card mb-8 bg-gradient-to-r text-white">
         <div>
-          <h1 class="text-2xl font-bold mb-2 text-black/80">
-            Seguindo ({{ stats.following }})
+          <h1 class="text-2xl font-bold mb-2 text-black/80 px-4 py-4">
+            Seguindo ({{ statsData.following }})
           </h1>
-
           <div class="mt-6 space-y-4">
             <div
               v-for="person in following"
@@ -78,18 +77,6 @@
             </div>
           </div>
         </div>
-
-        <div class="mt-8">
-          <div class="from-capivara-brown/5 to-capivara-green-lake/5">
-            <div class="text-center">
-              <div class="mt-5 pt-6 border-t border-capivara-stone/10">
-                <p class="text-xs text-capivara-stone/50 mt-1">
-                  💚 Apoie o Projeto
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
     </main>
   </div>
@@ -116,14 +103,14 @@ const handle = computed(() => route.params.handle || null);
 const did = computed(() => {
   if (handle?.value && handle?.value.includes("@")) {
     // If handle is present and looks like a handle, resolve to DID
-    getDidFromHandle("https://bsky.social", null, handle).then(
+    getDidFromHandle(authStore.server, authStore.accessToken, handle).then(
       (resolvedDid) => resolvedDid
     );
   }
   return route.params.handle || null;
 });
 
-const { profileData, stats } = useProfile(did);
+const { profileData, statsData } = useProfile(did);
 
 const following = ref([]);
 const cursor = ref(null);
@@ -159,7 +146,7 @@ async function fetchInitialFollowing() {
         authStore.server,
         authStore.accessToken,
         did.value || authStore.did,
-        200
+        100
       );
       const list = resp2.followers || [];
       followersSet.value = new Set(list.map((f) => f.did));

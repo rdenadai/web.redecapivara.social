@@ -54,6 +54,10 @@ export function createAuthClient(serverUrl, accessToken) {
 
 /**
  * Get actor profile information
+ * @param {string} serverUrl - URL of the ATProtocol server
+ * @param {string} accessToken - Access token for authentication
+ * @param {string} actor - DID or handle of the actor
+ * @returns {Promise} Profile data
  */
 export async function getProfile(serverUrl, accessToken, actor) {
   const client = createAuthClient(serverUrl, accessToken);
@@ -65,6 +69,12 @@ export async function getProfile(serverUrl, accessToken, actor) {
 
 /**
  * Get author feed (user's posts)
+ * @param {string} serverUrl - URL of the ATProtocol server
+ * @param {string} accessToken - Access token for authentication
+ * @param {string} actor - DID or handle of the actor
+ * @param {number} limit - Number of posts to retrieve
+ * @param {string} cursor - Pagination cursor
+ * @returns {Promise} Feed data
  */
 export async function getAuthorFeed(
   serverUrl,
@@ -84,8 +94,59 @@ export async function getAuthorFeed(
   return response.data;
 }
 
+export async function getUnreadNotificationsCount(
+  serverUrl,
+  accessToken,
+  actor
+) {
+  const client = createAuthClient(serverUrl, accessToken);
+  const response = await client.get(
+    "/xrpc/app.bsky.notification.getUnreadCount",
+    {
+      params: { actor },
+    }
+  );
+  return response.data;
+}
+
+/**
+ * List notifications for the authenticated user
+ * @param {string} serverUrl - URL of the ATProtocol server
+ * @param {string} accessToken - Access token for authentication
+ * @param {string} actor - DID or handle of the actor
+ * @param {number} limit - Number of notifications to retrieve
+ * @param {string} cursor - Pagination cursor
+ * @returns {Promise} Notifications data
+ */
+export async function getNotifications(
+  serverUrl,
+  accessToken,
+  actor,
+  limit = 25,
+  cursor = undefined
+) {
+  const client = createAuthClient(serverUrl, accessToken);
+  const params = { actor, limit };
+  if (cursor) {
+    params.cursor = cursor;
+  }
+  const response = await client.get(
+    "/xrpc/app.bsky.notification.listNotifications",
+    {
+      params,
+    }
+  );
+  return response.data;
+}
+
 /**
  * Get actor's followers
+ * @param {string} serverUrl - URL of the ATProtocol server
+ * @param {string} accessToken - Access token for authentication
+ * @param {string} actor - DID or handle of the actor
+ * @param {number} limit - Number of followers to retrieve
+ * @param {string} cursor - Pagination cursor
+ * @returns {Promise} Followers data
  */
 export async function getFollowers(
   serverUrl,
@@ -107,6 +168,12 @@ export async function getFollowers(
 
 /**
  * Get actor's follows
+ *  @param {string} serverUrl - URL of the ATProtocol server
+ * @param {string} accessToken - Access token for authentication
+ * @param {string} actor - DID or handle of the actor
+ * @param {number} limit - Number of follows to retrieve
+ * @param {string} cursor - Pagination cursor
+ * @returns {Promise} Follows data
  */
 export async function getFollows(
   serverUrl,
@@ -126,7 +193,15 @@ export async function getFollows(
   return response.data;
 }
 
-/** Get actor's timeline */
+/**
+ * Get actor's timeline
+ * @param {string} serverUrl - URL of the ATProtocol server
+ * @param {string} accessToken - Access token for authentication
+ * @param {string} actor - DID or handle of the actor
+ * @param {number} limit - Number of posts to retrieve
+ * @param {string} cursor - Pagination cursor
+ * @returns {Promise} Timeline data
+ */
 export async function getTimeline(
   serverUrl,
   accessToken,
@@ -145,12 +220,15 @@ export async function getTimeline(
   return response.data;
 }
 
-/** Get actor's did from handle */
+/**
+ * Get actor's did from handle
+ * @param {string} serverUrl - URL of the ATProtocol server
+ * @param {string} accessToken - Access token for authentication
+ * @param {string} handle - User handle to resolve
+ * @returns {Promise<string|null>} Resolved DID or null if not found
+ */
 export async function getDidFromHandle(serverUrl, accessToken, handle) {
   try {
-    console.log("Resolving handle to DID:", handle);
-    console.log("Using server:", serverUrl);
-    console.log("Using access token:", accessToken ? "Yes" : "No");
     const client = createAuthClient(serverUrl, accessToken);
     const response = await client.get(
       "/xrpc/com.atproto.identity.resolveHandle",
@@ -165,6 +243,90 @@ export async function getDidFromHandle(serverUrl, accessToken, handle) {
     console.error("Error resolving handle to DID:", err);
     return null;
   }
+}
+
+/**
+ * POST API FUNCTIONS
+ */
+
+/**
+ * Like a post by creating a like record
+ * @param {string} serverUrl - URL of the ATProtocol server
+ * @param {string} accessToken - Access token for authentication
+ * @param {string} accountDid - DID of the user creating the like
+ * @param {string} postUri - URI of the post to like (at://...)
+ * @param {string} postCid - CID of the post to like
+ * @returns {Promise} Response with the created like record URI
+ */
+export async function likePost(
+  serverUrl,
+  accessToken,
+  accountDid,
+  postUri,
+  postCid
+) {
+  const client = createAuthClient(serverUrl, accessToken);
+  const response = await client.post("/xrpc/com.atproto.repo.createRecord", {
+    repo: accountDid,
+    collection: "app.bsky.feed.like",
+    record: {
+      subject: {
+        uri: postUri,
+        cid: postCid,
+      },
+      createdAt: new Date().toISOString(),
+    },
+  });
+  return response.data;
+}
+
+/**
+ * Unlike a post by deleting the like record
+ * @param {string} serverUrl - URL of the ATProtocol server
+ * @param {string} accessToken - Access token for authentication
+ * @param {string} accountDid - DID of the user deleting the like
+ * @param {string} likeUri - URI of the like record to delete (at://...)
+ * @returns {Promise} Response from the delete operation
+ */
+export async function unlikePost(serverUrl, accessToken, accountDid, likeUri) {
+  const client = createAuthClient(serverUrl, accessToken);
+  // Parse the like URI to get repo and rkey
+  const rkey =
+    likeUri.replace("at://", "").split("/").filter(Boolean).at(-1) || "";
+  const response = await client.post("/xrpc/com.atproto.repo.deleteRecord", {
+    repo: accountDid,
+    collection: "app.bsky.feed.like",
+    rkey: rkey,
+  });
+  return response.data;
+}
+
+export async function updateNotificationSeen(serverUrl, accessToken, seenAt) {
+  const client = createAuthClient(serverUrl, accessToken);
+  const response = await client.post("/xrpc/app.bsky.notification.updateSeen", {
+    seenAt: seenAt,
+  });
+  return response.data;
+}
+
+/**
+ * Get a specific post by actor and post ID
+ * @param {string} serverUrl - URL of the ATProtocol server
+ * @param {string} accessToken - Access token for authentication
+ * @param {string} accountDid - DID or handle of the post author
+ * @param {string} postId - Post ID (rkey)
+ * @returns {Promise} Post data
+ */
+export async function getPost(serverUrl, accessToken, accountDid, postId) {
+  const client = createAuthClient(serverUrl, accessToken);
+  const response = await client.get("/xrpc/com.atproto.repo.getRecord", {
+    params: {
+      repo: accountDid,
+      rkey: postId,
+      collection: "app.bsky.feed.post",
+    },
+  });
+  return response.data;
 }
 
 /**

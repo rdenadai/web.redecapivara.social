@@ -2,12 +2,12 @@
   <div class="min-h-screen bg-capivara-off-white">
     <MenuView />
     <!-- Main Content -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <main class="max-w-7xl mx-auto md:px-4">
       <div v-if="did" class="card mb-8 bg-gradient-to-r text-white">
         <ProfileView :did="did" />
         <!-- Separator -->
         <div class="mt-5 pt-6 border-t border-capivara-stone/10"></div>
-        <div class="flex items-center gap-4 text-capivara-brown/80">
+        <div class="flex items-center gap-4 text-capivara-brown/80 px-4">
           <FeedView :did="did" />
         </div>
         <div class="mt-8">
@@ -40,21 +40,25 @@
 <script setup>
 import { computed } from "vue";
 import { useRoute } from "vue-router";
+import { useAuthStore } from "@/stores/auth";
 import { getDidFromHandle } from "@/services/atproto";
 import ProfileView from "./ProfileView.vue";
 import MenuView from "../MenuView.vue";
 import FeedView from "./FeedView.vue";
 
 const route = useRoute();
+const authStore = useAuthStore();
 
 const handle = computed(() => route.params.handle || null);
 
 const did = computed(() => {
   if (handle.value && handle.value.includes("@")) {
     // If handle is present and looks like a handle, resolve to DID
-    getDidFromHandle("https://bsky.social", null, handle.value).then(
-      (resolvedDid) => resolvedDid
-    );
+    getDidFromHandle(
+      authStore.server,
+      authStore.accessToken,
+      handle.value
+    ).then((resolvedDid) => resolvedDid);
   }
   return route.params.handle || null;
 });

@@ -2,9 +2,11 @@
 import { ref, computed, watchEffect } from "vue";
 import { getProfile } from "@/services/atproto";
 import { useAuthStore } from "@/stores/auth";
+import { useCache } from "./useCache";
 
 export function useProfile(did) {
   const authStore = useAuthStore();
+  const cache = useCache();
 
   const userName = computed(() => {
     const user = authStore.user || "";
@@ -18,10 +20,10 @@ export function useProfile(did) {
     displayName: "",
     description: "",
   });
-  const stats = ref({
+  const statsData = ref({
     followers: 0,
-    posts: 0,
     following: 0,
+    posts: 0,
   });
   const loading = ref(false);
   const error = ref(null);
@@ -37,19 +39,20 @@ export function useProfile(did) {
         resolvedDid.value
       );
 
-      profileData.value = {
-        did: profile.did,
-        handle: profile.handle,
-        avatar: profile.avatar || "",
-        banner: profile.banner || "",
-        displayName: profile.displayName || userName.value,
-        description: profile.description || "",
-      };
-
-      stats.value = {
-        followers: profile.followersCount || 0,
-        posts: profile.postsCount || 0,
-        following: profile.followsCount || 0,
+      return {
+        profile: {
+          did: profile.did,
+          handle: profile.handle,
+          avatar: profile.avatar || "",
+          banner: profile.banner || "",
+          displayName: profile.displayName || userName.value,
+          description: profile.description || "",
+        },
+        stats: {
+          followers: profile.followersCount || 0,
+          following: profile.followsCount || 0,
+          posts: profile.postsCount || 0,
+        },
       };
     } catch (error) {
       console.error("Erro ao carregar estatísticas:", error);
@@ -58,17 +61,29 @@ export function useProfile(did) {
     }
   }
 
-  // Buscar dados do perfil ao montar o componente
-  watchEffect(() => {
+  watchEffect(async () => {
     if (resolvedDid.value) {
-      loadProfileStats();
+      console.log("Loading profile for", resolvedDid.value);
+      console.log(cache.has(`profile-${resolvedDid.value}`));
+      if (cache.has(`profile-${resolvedDid.value}`)) {
+        const cached = cache.get(`profile-${resolvedDid.value}`);
+        console.log("Using cached profile", cached);
+        profileData.value = cached.profile;
+        statsData.value = cached.stats;
+        return;
+      }
+
+      const { profile, stats } = await loadProfileStats();
+      profileData.value = profile;
+      statsData.value = stats;
+      cache.set(`profile-${resolvedDid.value}`, { profile, stats });
     }
   });
 
   return {
     userName,
     profileData,
-    stats,
+    statsData,
     loading,
     error,
     loadProfileStats,
