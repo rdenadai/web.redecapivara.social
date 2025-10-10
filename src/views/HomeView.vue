@@ -2,13 +2,13 @@
   <div class="min-h-screen bg-capivara-off-white">
     <MenuView />
     <!-- Main Content -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <main class="max-w-7xl mx-auto md:px-4 md:py-4">
       <!-- Welcome Section -->
       <div class="card mb-8 bg-gradient-to-r text-white">
         <ProfileView />
         <!-- Separator -->
         <div class="mt-5 pt-6 border-t border-capivara-stone/10"></div>
-        <div class="flex items-center gap-4 text-capivara-brown/80">
+        <div class="flex items-center gap-4 text-capivara-brown/80 px-4">
           <TimelineView />
         </div>
         <div class="mt-8">

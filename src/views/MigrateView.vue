@@ -2,7 +2,7 @@
   <div class="min-h-screen bg-capivara-off-white">
     <!-- Header -->
     <header class="bg-white shadow-sm">
-      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="max-w-4xl mx-auto px-4">
         <div class="flex justify-between items-center h-16">
           <router-link to="/">
             <div class="flex items-center space-x-3">
@@ -20,7 +20,7 @@
           </router-link>
           <router-link
             to="/login"
-            class="text-sm text-capivara-sky-blue hover:underline"
+            class="text-white bg-capivara-green-lake hover:bg-capivara-stone/80 focus:ring-4 focus:outline-none focus:ring-capivara-green-lake/50 font-medium rounded-lg text-sm px-4 py-2 text-center inline-flex items-center transition-all active:scale-95"
           >
             ← Voltar
           </router-link>
@@ -29,64 +29,19 @@
     </header>
 
     <!-- Main Content -->
-    <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <main class="max-w-4xl mx-auto md:px-4">
       <!-- One big card that contains the whole migrate page -->
-      <div class="card">
+      <div class="card px-4">
         <!-- Hero -->
-        <div class="text-center mb-12">
-          <h1 class="text-4xl font-bold text-capivara-stone mb-4">
-            🦎 Migre do Bluesky para a Rede Capivara
+        <div class="text-center mb-4 py-8">
+          <h1 class="text-2xl font-bold text-capivara-stone mb-4">
+            Migre do Bluesky para a Rede Capivara
           </h1>
           <p class="text-lg text-capivara-stone/70 max-w-2xl mx-auto">
             Traga sua identidade, seguidores e conteúdo do Bluesky para o nosso
             servidor brasileiro. O processo é simples e mantém sua presença na
             rede.
           </p>
-        </div>
-
-        <!-- Steps -->
-        <div class="grid md:grid-cols-3 gap-6 mb-12">
-          <div class="card text-center">
-            <div
-              class="w-16 h-16 bg-capivara-sky-blue/10 rounded-full flex items-center justify-center mx-auto mb-4"
-            >
-              <span class="text-3xl font-bold text-capivara-sky-blue">1</span>
-            </div>
-            <h3 class="text-lg font-semibold text-capivara-stone mb-2">
-              Crie sua conta
-            </h3>
-            <p class="text-sm text-capivara-stone/60">
-              Cadastre-se na Rede Capivara com seu handle preferido
-            </p>
-          </div>
-
-          <div class="card text-center">
-            <div
-              class="w-16 h-16 bg-capivara-green-lake/10 rounded-full flex items-center justify-center mx-auto mb-4"
-            >
-              <span class="text-3xl font-bold text-capivara-green-lake">2</span>
-            </div>
-            <h3 class="text-lg font-semibold text-capivara-stone mb-2">
-              Exporte seus dados
-            </h3>
-            <p class="text-sm text-capivara-stone/60">
-              Baixe seu repositório completo do Bluesky
-            </p>
-          </div>
-
-          <div class="card text-center">
-            <div
-              class="w-16 h-16 bg-capivara-brown/10 rounded-full flex items-center justify-center mx-auto mb-4"
-            >
-              <span class="text-3xl font-bold text-capivara-brown">3</span>
-            </div>
-            <h3 class="text-lg font-semibold text-capivara-stone mb-2">
-              Importe aqui
-            </h3>
-            <p class="text-sm text-capivara-stone/60">
-              Faça upload e migre tudo para seu novo perfil
-            </p>
-          </div>
         </div>
 
         <!-- Migration Form -->
@@ -370,13 +325,10 @@
                 <button
                   @click="startMigration"
                   :disabled="!canStartMigration"
-                  class="btn-primary flex-1 disabled:opacity-50 disabled:cursor-not-allowed"
+                  class="btn-primary flex-1 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-capivara-stone/80"
                 >
-                  🚀 Iniciar Migração
+                  Iniciar Migração
                 </button>
-                <router-link to="/login" class="btn-secondary px-6">
-                  Cancelar
-                </router-link>
               </div>
             </div>
 
@@ -586,7 +538,7 @@
 
           <!-- Info Cards -->
           <div class="grid md:grid-cols-2 gap-6 mt-12">
-            <div class="card bg-blue-50">
+            <div class="card bg-blue-50 p-4 rounded-lg">
               <h3
                 class="text-lg font-semibold text-capivara-stone mb-3 flex items-center"
               >
@@ -625,7 +577,7 @@
               </ul>
             </div>
 
-            <div class="card bg-green-50">
+            <div class="card bg-green-50 p-4 rounded-lg">
               <h3
                 class="text-lg font-semibold text-capivara-stone mb-3 flex items-center"
               >

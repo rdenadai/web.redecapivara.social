@@ -2,7 +2,7 @@
   <div class="min-h-screen bg-capivara-off-white">
     <!-- Header -->
     <header class="bg-white shadow-sm">
-      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="max-w-4xl mx-auto px-4">
         <div class="flex justify-between items-center h-16">
           <router-link to="/">
             <div class="flex items-center space-x-3">
@@ -23,14 +23,14 @@
             v-if="isInstallable"
             @click="promptInstall"
             type="button"
-            class="text-white bg-capivara-green-lake hover:bg-capivara-sky-blue focus:ring-4 focus:outline-none focus:ring-capivara-green-lake/50 font-medium rounded-lg text-sm px-4 py-2 text-center inline-flex items-center transition-all active:scale-95"
+            class="text-white bg-capivara-green-lake hover:bg-capivara-stone/80 focus:ring-4 focus:outline-none focus:ring-capivara-green-lake/50 font-medium rounded-lg text-sm px-4 py-2 text-center inline-flex items-center transition-all active:scale-95"
           >
             Instalar
           </button>
         </div>
       </div>
     </header>
-    <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <main class="max-w-4xl mx-auto md:px-4 md:py-4">
       <!-- Background decorativo -->
       <div class="absolute inset-0 overflow-hidden pointer-events-none">
         <div
@@ -42,10 +42,13 @@
       </div>
 
       <div class="w-full relative z-10">
-        <!-- Card de Login -->
-        <div class="card">
-          <form @submit.prevent="handleLogin" class="space-y-5">
-            <!-- Mensagem de erro -->
+        <div class="card px-4 py-6">
+          <div class="text-sm mb-6">
+            Esta é uma interface independente para uso em conjunto com a Rede
+            Capivara (que é um PDS ATProtocol independente).
+          </div>
+          <hr class="mt-4" />
+          <form @submit.prevent="handleLogin" class="space-y-5 mt-4">
             <div
               v-if="errorMessage"
               class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm"
@@ -53,13 +56,12 @@
               {{ errorMessage }}
             </div>
 
-            <!-- Campo Usuário -->
             <div>
               <label
                 for="identifier"
                 class="block text-sm font-medium text-capivara-stone mb-2"
               >
-                Usuário ou Email
+                Usuário ou Email:
               </label>
               <input
                 id="identifier"
@@ -72,13 +74,12 @@
               />
             </div>
 
-            <!-- Campo Senha -->
             <div>
               <label
                 for="password"
                 class="block text-sm font-medium text-capivara-stone mb-2"
               >
-                Senha
+                Senha:
               </label>
               <input
                 id="password"
@@ -91,13 +92,12 @@
               />
             </div>
 
-            <!-- Campo Servidor -->
             <div>
               <label
                 for="server"
                 class="block text-sm font-medium text-capivara-stone mb-2"
               >
-                Servidor
+                Servidor:
               </label>
               <input
                 id="server"
@@ -113,10 +113,9 @@
               </p>
             </div>
 
-            <!-- Botão de Login -->
             <button
               type="submit"
-              class="btn-primary w-full mt-6 disabled:opacity-50 disabled:cursor-not-allowed"
+              class="btn-primary w-full mt-6 disabled:opacity-50 disabled:cursor-not-allowed hover:disabled:bg-capivara-green-lake/80 hover:bg-capivara-stone/80"
               :disabled="loading"
             >
               <span v-if="!loading">Entrar</span>
@@ -170,9 +169,9 @@
             </div>
           </div>
 
-          <hr class="mt-8" />
+          <hr class="mt-4" />
           <!-- Doação PIX -->
-          <div class="mt-8">
+          <div class="mt-4">
             <div class="from-capivara-brown/5 to-capivara-green-lake/5">
               <div class="text-center md:w-[40em] mx-auto">
                 <h3 class="text-lg font-bold text-capivara-stone mb-2">
@@ -193,7 +192,7 @@
 
                 <!-- QR Code -->
                 <div class="flex justify-center mb-4">
-                  <div class="bg-white p-3 rounded-xl shadow-lg">
+                  <div class="bg-white p-3">
                     <img
                       :src="pixQRCode"
                       alt="QR Code PIX"
@@ -218,8 +217,10 @@
                     />
                     <button
                       @click="copyPixCode"
-                      class="px-3 py-1.5 bg-capivara-green-lake text-white rounded-lg text-xs font-medium hover:opacity-90 transition-all active:scale-95"
-                      :class="{ 'bg-capivara-sky-blue': copied }"
+                      class="px-3 py-1.5 bg-capivara-green-lake hover:bg-capivara-stone/80 text-white rounded-lg text-xs font-medium hover:opacity-90 transition-all active:scale-95"
+                      :class="{
+                        'bg-capivara-stone/80': copied,
+                      }"
                     >
                       {{ copied ? "✓" : "Copiar" }}
                     </button>

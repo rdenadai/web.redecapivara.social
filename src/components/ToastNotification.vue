@@ -4,7 +4,7 @@
       v-if="visible"
       :class="[
         'fixed bottom-4 right-4 z-50 max-w-sm w-full',
-        'card shadow-2xl',
+        'card shadow-2xl p-6 rounded-lg',
         typeClasses,
       ]"
       role="alert"

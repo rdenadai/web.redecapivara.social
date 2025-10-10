@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
 import { ref, computed } from "vue";
 import { atprotoLogin } from "@/services/atproto";
+import { useCache } from "@/composables/useCache";
 
 export const useAuthStore = defineStore("auth", () => {
   const user = ref(null);
@@ -8,6 +9,8 @@ export const useAuthStore = defineStore("auth", () => {
   const accessToken = ref(null);
   const refreshToken = ref(null);
   const did = ref(null);
+
+  const cache = useCache();
 
   const isAuthenticated = computed(() => !!accessToken.value);
 
@@ -18,8 +21,7 @@ export const useAuthStore = defineStore("auth", () => {
     refreshToken.value = data.refreshJwt;
     did.value = data.did;
 
-    // Salva no localStorage para persistência
-    localStorage.setItem(
+    cache.set(
       "capivara_session",
       JSON.stringify({
         user: data.user,
@@ -27,24 +29,22 @@ export const useAuthStore = defineStore("auth", () => {
         accessJwt: data.accessJwt,
         refreshJwt: data.refreshJwt,
         did: data.did,
-      })
+      }),
+      false
     );
   }
 
   function checkSession() {
-    const stored = localStorage.getItem("capivara_session");
-    if (stored) {
-      try {
-        const data = JSON.parse(stored);
-        user.value = data.user;
-        server.value = data.server;
-        accessToken.value = data.accessJwt;
-        refreshToken.value = data.refreshJwt;
-        did.value = data.did;
-      } catch (e) {
-        console.error("Erro ao carregar sessão:", e);
-        clearSession();
-      }
+    const stored = cache.get("capivara_session");
+    try {
+      const data = JSON.parse(stored);
+      user.value = data.user;
+      server.value = data.server;
+      accessToken.value = data.accessJwt;
+      refreshToken.value = data.refreshJwt;
+      did.value = data.did;
+    } catch (e) {
+      clearSession();
     }
   }
 
@@ -54,7 +54,7 @@ export const useAuthStore = defineStore("auth", () => {
     accessToken.value = null;
     refreshToken.value = null;
     did.value = null;
-    localStorage.removeItem("capivara_session");
+    cache.remove("capivara_session");
   }
 
   async function login(identifier, password, serverUrl) {

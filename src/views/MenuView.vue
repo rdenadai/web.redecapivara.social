@@ -1,7 +1,7 @@
 <template>
   <!-- Header -->
-  <header class="bg-white shadow-sm sticky top-0 z-50">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+  <header class="bg-white shadow-sm sticky top-0 z-50 px-2">
+    <div class="max-w-7xl mx-auto md:px-4">
       <div class="flex justify-between items-center h-16">
         <!-- Logo --><router-link to="/">
           <div class="flex items-center space-x-3">
@@ -28,12 +28,23 @@
           </div>
 
           <div class="relative group">
-            <img
-              v-if="profileData.avatar"
-              :src="profileData.avatar"
-              alt="Avatar"
-              class="w-10 h-10 rounded-full object-cover cursor-pointer"
-            />
+            <div class="relative">
+              <router-link :to="'/notifications'">
+                <img
+                  v-if="profileData.avatar"
+                  :src="profileData.avatar"
+                  alt="Avatar"
+                  class="w-10 h-10 rounded-full object-cover cursor-pointer"
+                />
+                <span
+                  v-if="notificationsCount > 0"
+                  :aria-label="`Você tem ${notificationsCount} notificações não lidas`"
+                  class="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-medium w-5 h-5 rounded-full flex items-center justify-center border-2 border-white"
+                >
+                  {{ notificationsCount > 99 ? "99+" : notificationsCount }}
+                </span>
+              </router-link>
+            </div>
             <div
               class="absolute right-0 mt-2 w-fit bg-white rounded-lg shadow-lg py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50"
             >
@@ -67,8 +78,6 @@
             </div>
           </div>
 
-          <InstallButton />
-
           <button
             @click="handleLogout"
             class="p-2 rounded-lg hover:bg-capivara-off-white transition-colors"
@@ -94,14 +103,22 @@
 </template>
 
 <script setup>
-import { computed } from "vue";
-import { useAuthStore } from "@/stores/auth";
+import { computed, ref, onMounted, onUnmounted } from "vue";
 import { useRouter } from "vue-router";
+import { useAuthStore } from "@/stores/auth";
+import { useCache } from "@/composables/useCache";
 import { useProfile } from "@/composables/useProfile";
+import { getUnreadNotificationsCount } from "@/services/atproto";
 
-const authStore = useAuthStore();
+const interval = 60000; // 1 minute
+
 const router = useRouter();
+const authStore = useAuthStore();
+const cache = useCache();
 const { profileData } = useProfile();
+
+const intervalId = ref(null);
+const notificationsCount = ref(0);
 
 const serverName = computed(() => {
   try {
@@ -112,10 +129,39 @@ const serverName = computed(() => {
   }
 });
 
-function handleLogout() {
+const handleLogout = () => {
   if (confirm("Deseja realmente sair?")) {
     authStore.logout();
+    cache.clear();
     router.push("/login");
   }
-}
+};
+
+const fetchUnreadNotificationsCount = async () => {
+  try {
+    const response = await getUnreadNotificationsCount(
+      authStore.server,
+      authStore.accessToken,
+      authStore.did
+    );
+    if (response && typeof response.count === "number") {
+      notificationsCount.value = response.count;
+    } else {
+      console.error("Failed to fetch unread notifications count");
+    }
+  } catch (err) {
+    console.error("Error fetching unread notifications count:", err);
+  }
+};
+
+onMounted(async () => {
+  await fetchUnreadNotificationsCount();
+  intervalId.value = setInterval(fetchUnreadNotificationsCount, interval);
+});
+
+onUnmounted(() => {
+  if (intervalId.value) {
+    clearInterval(intervalId.value);
+  }
+});
 </script>

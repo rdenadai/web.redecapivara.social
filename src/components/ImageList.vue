@@ -1,6 +1,5 @@
 <template>
-  <!-- If we have embed images -->
-  <div v-if="props.images?.length" class="max-w-xl mt-2 gap-2">
+  <div v-if="images?.length" class="max-w-xl mt-2 gap-2">
     <a
       v-for="(image, idx) in props.images"
       :key="image.fullsize || image.thumb"
@@ -16,12 +15,14 @@
 </template>
 
 <script setup>
-import { defineProps } from "vue";
+import { defineProps, toRefs } from 'vue'
 
 const props = defineProps({
   images: {
     type: Array,
     required: true,
   },
-});
+})
+
+const { images } = toRefs(props)
 </script>
