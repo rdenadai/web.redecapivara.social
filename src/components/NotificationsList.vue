@@ -203,7 +203,7 @@ const fetchNotifications = async () => {
         const key = `${notif.reason}-${notif.reasonSubject}`;
         if (!groupedMap.has(key)) {
           // Need to check if notif is already in the map to avoid duplicates
-          if (groupedMap.get(key)?.grouped.Some((n) => n.id === notif.id)) {
+          if (groupedMap.get(key)?.grouped.some((n) => n.id === notif.id)) {
             return;
           }
           groupedMap.set(key, {
