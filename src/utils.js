@@ -9,7 +9,6 @@ export function numberOfHoursAgo(date) {
   const now = new Date();
   const past = new Date(date);
   const diffInMs = now - past;
-  console.log({ now, past, diffInMs });
   const diffInHours = Math.floor(diffInMs / (1000 * 60 * 60));
   return diffInHours;
 }
