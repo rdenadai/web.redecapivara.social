@@ -60,7 +60,7 @@ const router = createRouter({
       path: '/register',
       name: 'register',
       component: RegisterView,
-      meta: { requiresAuth: true },
+      meta: { requiresAuth: false },
     },
     {
       path: '/migrate',
