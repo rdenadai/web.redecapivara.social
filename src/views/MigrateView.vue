@@ -7,15 +7,9 @@
           <router-link to="/">
             <div class="flex items-center space-x-3">
               <div class="flex items-center justify-center">
-                <img
-                  src="/capivara-icon.svg"
-                  alt="Rede Capivara Logo"
-                  class="w-12 h-12"
-                />
+                <img src="/capivara-icon.svg" alt="Rede Capivara Logo" class="w-12 h-12" />
               </div>
-              <span class="text-xl font-bold text-capivara-stone"
-                >Rede Capivara</span
-              >
+              <span class="text-xl font-bold text-capivara-stone">Rede Capivara</span>
             </div>
           </router-link>
           <router-link
@@ -29,34 +23,28 @@
     </header>
 
     <!-- Main Content -->
-    <main class="max-w-4xl mx-auto md:px-4">
+    <main class="max-w-4xl mx-auto md:px-4 md:py-4">
       <!-- One big card that contains the whole migrate page -->
       <div class="card px-4">
         <!-- Hero -->
-        <div class="text-center mb-4 py-8">
-          <h1 class="text-2xl font-bold text-capivara-stone mb-4">
-            Migre do Bluesky para a Rede Capivara
-          </h1>
-          <p class="text-lg text-capivara-stone/70 max-w-2xl mx-auto">
-            Traga sua identidade, seguidores e conteúdo do Bluesky para o nosso
-            servidor brasileiro. O processo é simples e mantém sua presença na
-            rede.
+        <div class="text-start mb-4 py-4">
+          <h1 class="text-xl font-bold text-capivara-stone mb-4">Migre do Bluesky para a Rede Capivara</h1>
+          <p class="text-sm text-capivara-stone/70 max-w-2xl">
+            Traga sua identidade, seguidores e conteúdo do Bluesky para o nosso servidor brasileiro. O processo é
+            simples e mantém sua presença na rede.
           </p>
         </div>
 
         <!-- Migration Form -->
         <div class="w-full mx-auto">
           <div>
-            <h2 class="text-2xl font-bold text-capivara-stone mb-6">
-              Iniciar Migração
-            </h2>
-
+            <h2 class="text-xl font-bold text-capivara-stone mb-6">Iniciar Migração:</h2>
+            <!-- Divisor -->
+            <div class="border-t border-gray-200 mb-6"></div>
             <div v-if="!migrationStarted" class="space-y-6">
               <!-- Step 1: Account Info -->
               <div>
-                <h3
-                  class="text-lg font-semibold text-capivara-stone mb-4 flex items-center"
-                >
+                <h3 class="text-lg font-semibold text-capivara-stone mb-4 flex items-center">
                   <span
                     class="w-8 h-8 bg-capivara-sky-blue text-white rounded-full flex items-center justify-center mr-3 text-sm"
                     >1</span
@@ -65,46 +53,22 @@
                 </h3>
                 <div class="space-y-4 ml-11">
                   <div>
-                    <label
-                      class="block text-sm font-medium text-capivara-stone mb-2"
-                    >
-                      Handle ou DID do Bluesky
-                    </label>
-                    <input
-                      v-model="blueskyHandle"
-                      type="text"
-                      placeholder="usuario.bsky.social"
-                      class="input-field"
-                    />
-                    <p class="text-xs text-capivara-stone/60 mt-1">
-                      Seu identificador atual no Bluesky
-                    </p>
+                    <label class="block text-sm font-medium text-capivara-stone mb-2"> Handle ou DID do Bluesky </label>
+                    <input v-model="blueskyHandle" type="text" placeholder="usuario.bsky.social" class="input-field" />
+                    <p class="text-xs text-capivara-stone/60 mt-1">Seu identificador atual no Bluesky</p>
                   </div>
 
                   <div>
-                    <label
-                      class="block text-sm font-medium text-capivara-stone mb-2"
-                    >
-                      Senha do App ou Token
-                    </label>
-                    <input
-                      v-model="blueskyPassword"
-                      type="password"
-                      placeholder="••••••••"
-                      class="input-field"
-                    />
-                    <p class="text-xs text-capivara-stone/60 mt-1">
-                      Use uma senha de app para maior segurança
-                    </p>
+                    <label class="block text-sm font-medium text-capivara-stone mb-2"> Senha do App ou Token </label>
+                    <input v-model="blueskyPassword" type="password" placeholder="••••••••" class="input-field" />
+                    <p class="text-xs text-capivara-stone/60 mt-1">Use uma senha de app para maior segurança</p>
                   </div>
                 </div>
               </div>
 
               <!-- Step 2: New Account -->
               <div class="pt-6 border-t border-gray-200">
-                <h3
-                  class="text-lg font-semibold text-capivara-stone mb-4 flex items-center"
-                >
+                <h3 class="text-lg font-semibold text-capivara-stone mb-4 flex items-center">
                   <span
                     class="w-8 h-8 bg-capivara-green-lake text-white rounded-full flex items-center justify-center mr-3 text-sm"
                     >2</span
@@ -121,25 +85,18 @@
                         class="w-4 h-4 mt-1 text-capivara-sky-blue rounded focus:ring-capivara-sky-blue"
                       />
                       <div class="flex-1">
-                        <span
-                          class="text-sm font-medium text-capivara-stone block"
-                        >
+                        <span class="text-sm font-medium text-capivara-stone block">
                           🎯 Manter meu nome de usuário do Bluesky
                         </span>
                         <span class="text-xs text-capivara-stone/60">
-                          Seu nome será mantido, mas o domínio mudará de
-                          .bsky.social para .redecapivara.social
+                          Seu nome será mantido, mas o domínio mudará de .bsky.social para .redecapivara.social
                         </span>
                       </div>
                     </label>
                   </div>
 
                   <div v-if="!keepHandle">
-                    <label
-                      class="block text-sm font-medium text-capivara-stone mb-2"
-                    >
-                      Novo Handle
-                    </label>
+                    <label class="block text-sm font-medium text-capivara-stone mb-2"> Novo Handle </label>
                     <div class="flex items-center gap-2">
                       <input
                         v-model="newHandle"
@@ -148,73 +105,36 @@
                         class="input-field flex-1"
                         :required="!keepHandle"
                       />
-                      <span
-                        class="text-capivara-stone/60 text-sm whitespace-nowrap"
-                      >
-                        .redecapivara.social
-                      </span>
+                      <span class="text-capivara-stone/60 text-sm whitespace-nowrap"> .redecapivara.social </span>
                     </div>
                   </div>
-                  <div
-                    v-else
-                    class="bg-gray-50 border border-gray-200 rounded-lg p-3"
-                  >
+                  <div v-else class="bg-gray-50 border border-gray-200 rounded-lg p-3">
                     <p class="text-sm text-capivara-stone/70">
                       <strong>Seu novo handle será:</strong>
-                      <span
-                        class="text-capivara-green-lake font-mono ml-1 block mt-1"
-                      >
-                        @{{
-                          blueskyHandle.replace(".bsky.social", "")
-                        }}.redecapivara.social
+                      <span class="text-capivara-green-lake font-mono ml-1 block mt-1">
+                        @{{ blueskyHandle.replace('.bsky.social', '') }}.redecapivara.social
                       </span>
                     </p>
                     <p class="text-xs text-capivara-stone/60 mt-2">
-                      ⚠️ O domínio deve mudar para .redecapivara.social
-                      (requerido pelo ATProtocol)
+                      ⚠️ O domínio deve mudar para .redecapivara.social (requerido pelo ATProtocol)
                     </p>
                   </div>
 
                   <div>
-                    <label
-                      class="block text-sm font-medium text-capivara-stone mb-2"
-                    >
-                      Email
-                    </label>
-                    <input
-                      v-model="newEmail"
-                      type="email"
-                      placeholder="seu@email.com"
-                      class="input-field"
-                      required
-                    />
+                    <label class="block text-sm font-medium text-capivara-stone mb-2"> Email </label>
+                    <input v-model="newEmail" type="email" placeholder="seu@email.com" class="input-field" required />
                     <p class="text-xs text-capivara-stone/60 mt-1">
-                      ⚠️ Importante: você receberá um código de confirmação
-                      neste email
+                      ⚠️ Importante: você receberá um código de confirmação neste email
                     </p>
                   </div>
 
                   <div>
-                    <label
-                      class="block text-sm font-medium text-capivara-stone mb-2"
-                    >
-                      Senha
-                    </label>
-                    <input
-                      v-model="newPassword"
-                      type="password"
-                      placeholder="••••••••"
-                      class="input-field"
-                      required
-                    />
+                    <label class="block text-sm font-medium text-capivara-stone mb-2"> Senha </label>
+                    <input v-model="newPassword" type="password" placeholder="••••••••" class="input-field" required />
                   </div>
 
                   <div>
-                    <label
-                      class="block text-sm font-medium text-capivara-stone mb-2"
-                    >
-                      Código de Convite
-                    </label>
+                    <label class="block text-sm font-medium text-capivara-stone mb-2"> Código de Convite </label>
                     <input
                       v-model="inviteCode"
                       type="text"
@@ -222,18 +142,14 @@
                       class="input-field"
                       required
                     />
-                    <p class="text-xs text-capivara-stone/60 mt-1">
-                      🔑 Código necessário para criar conta no servidor
-                    </p>
+                    <p class="text-xs text-capivara-stone/60 mt-1">🔑 Código necessário para criar conta no servidor</p>
                   </div>
                 </div>
               </div>
 
               <!-- Step 3: Migration Options -->
               <div class="pt-6 border-t border-gray-200">
-                <h3
-                  class="text-lg font-semibold text-capivara-stone mb-4 flex items-center"
-                >
+                <h3 class="text-lg font-semibold text-capivara-stone mb-4 flex items-center">
                   <span
                     class="w-8 h-8 bg-capivara-brown text-white rounded-full flex items-center justify-center mr-3 text-sm"
                     >3</span
@@ -248,9 +164,7 @@
                       class="w-4 h-4 text-capivara-green-lake rounded focus:ring-capivara-green-lake"
                       checked
                     />
-                    <span class="text-sm text-capivara-stone">
-                      <strong>Perfil</strong> - Bio, avatar, banner
-                    </span>
+                    <span class="text-sm text-capivara-stone"> <strong>Perfil</strong> - Bio, avatar, banner </span>
                   </label>
 
                   <label class="flex items-center space-x-3 cursor-pointer">
@@ -260,9 +174,7 @@
                       class="w-4 h-4 text-capivara-green-lake rounded focus:ring-capivara-green-lake"
                       checked
                     />
-                    <span class="text-sm text-capivara-stone">
-                      <strong>Posts</strong> - Todos seus posts e mídia
-                    </span>
+                    <span class="text-sm text-capivara-stone"> <strong>Posts</strong> - Todos seus posts e mídia </span>
                   </label>
 
                   <label class="flex items-center space-x-3 cursor-pointer">
@@ -283,9 +195,7 @@
                       type="checkbox"
                       class="w-4 h-4 text-capivara-green-lake rounded focus:ring-capivara-green-lake"
                     />
-                    <span class="text-sm text-capivara-stone">
-                      <strong>Curtidas</strong> - Posts que você curtiu
-                    </span>
+                    <span class="text-sm text-capivara-stone"> <strong>Curtidas</strong> - Posts que você curtiu </span>
                   </label>
 
                   <label class="flex items-center space-x-3 cursor-pointer">
@@ -294,9 +204,7 @@
                       type="checkbox"
                       class="w-4 h-4 text-capivara-green-lake rounded focus:ring-capivara-green-lake"
                     />
-                    <span class="text-sm text-capivara-stone">
-                      <strong>Bloqueios</strong> - Usuários bloqueados
-                    </span>
+                    <span class="text-sm text-capivara-stone"> <strong>Bloqueios</strong> - Usuários bloqueados </span>
                   </label>
                 </div>
               </div>
@@ -310,11 +218,8 @@
                     class="w-4 h-4 mt-1 text-capivara-green-lake rounded focus:ring-capivara-green-lake"
                   />
                   <span class="text-sm text-capivara-stone/70">
-                    Confirmo que tenho autorização para migrar esta conta e
-                    aceito os
-                    <a href="#" class="text-capivara-sky-blue hover:underline"
-                      >termos de serviço</a
-                    >
+                    Confirmo que tenho autorização para migrar esta conta e aceito os
+                    <a href="#" class="text-capivara-sky-blue hover:underline">termos de serviço</a>
                     da Rede Capivara.
                   </span>
                 </label>
@@ -344,14 +249,7 @@
                     fill="none"
                     viewBox="0 0 24 24"
                   >
-                    <circle
-                      class="opacity-25"
-                      cx="12"
-                      cy="12"
-                      r="10"
-                      stroke="currentColor"
-                      stroke-width="4"
-                    ></circle>
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                     <path
                       class="opacity-75"
                       fill="currentColor"
@@ -365,27 +263,14 @@
                     stroke="currentColor"
                     viewBox="0 0 24 24"
                   >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M5 13l4 4L19 7"
-                    ></path>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                   </svg>
                 </div>
                 <h3 class="text-xl font-bold text-capivara-stone mb-2">
-                  {{
-                    migrationComplete
-                      ? "✅ Migração Concluída!"
-                      : "⏳ Migrando sua conta..."
-                  }}
+                  {{ migrationComplete ? '✅ Migração Concluída!' : '⏳ Migrando sua conta...' }}
                 </h3>
                 <p class="text-capivara-stone/60">
-                  {{
-                    migrationComplete
-                      ? "Bem-vindo à Rede Capivara!"
-                      : "Isso pode levar alguns minutos"
-                  }}
+                  {{ migrationComplete ? 'Bem-vindo à Rede Capivara!' : 'Isso pode levar alguns minutos' }}
                 </p>
               </div>
 
@@ -400,37 +285,21 @@
                     v-if="step.status === 'completed'"
                     class="w-6 h-6 bg-capivara-green-lake rounded-full flex items-center justify-center flex-shrink-0"
                   >
-                    <svg
-                      class="w-4 h-4 text-white"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M5 13l4 4L19 7"
-                      ></path>
+                    <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                     </svg>
                   </div>
                   <div
                     v-else-if="step.status === 'processing'"
                     class="w-6 h-6 border-2 border-capivara-sky-blue border-t-transparent rounded-full animate-spin flex-shrink-0"
                   ></div>
-                  <div
-                    v-else
-                    class="w-6 h-6 bg-gray-300 rounded-full flex-shrink-0"
-                  ></div>
+                  <div v-else class="w-6 h-6 bg-gray-300 rounded-full flex-shrink-0"></div>
 
                   <div class="flex-1">
                     <p class="text-sm font-medium text-capivara-stone">
                       {{ step.title }}
                     </p>
-                    <p
-                      v-if="step.description"
-                      class="text-xs text-capivara-stone/60"
-                    >
+                    <p v-if="step.description" class="text-xs text-capivara-stone/60">
                       {{ step.description }}
                     </p>
                   </div>
@@ -438,14 +307,9 @@
               </div>
 
               <!-- Email Confirmation (if required) -->
-              <div
-                v-if="requiresEmailConfirmation && !migrationComplete"
-                class="pt-6 border-t border-gray-200"
-              >
+              <div v-if="requiresEmailConfirmation && !migrationComplete" class="pt-6 border-t border-gray-200">
                 <div class="bg-blue-50 border border-blue-200 rounded-lg p-6">
-                  <h4
-                    class="text-lg font-semibold text-capivara-stone mb-3 flex items-center"
-                  >
+                  <h4 class="text-lg font-semibold text-capivara-stone mb-3 flex items-center">
                     <svg
                       class="w-6 h-6 mr-2 text-capivara-sky-blue"
                       fill="none"
@@ -464,8 +328,7 @@
                   <p class="text-sm text-capivara-stone/70 mb-4">
                     Enviamos um código de confirmação para
                     <strong>{{ newEmail }}</strong
-                    >. Digite o código para finalizar a migração da sua
-                    identidade.
+                    >. Digite o código para finalizar a migração da sua identidade.
                   </p>
                   <div class="flex gap-3">
                     <input
@@ -483,17 +346,13 @@
                     </button>
                   </div>
                   <p class="text-xs text-capivara-stone/60 mt-3">
-                    ℹ️ Não recebeu? Verifique sua caixa de spam ou aguarde
-                    alguns minutos.
+                    ℹ️ Não recebeu? Verifique sua caixa de spam ou aguarde alguns minutos.
                   </p>
                 </div>
               </div>
 
               <!-- Error Message -->
-              <div
-                v-if="migrationError"
-                class="bg-red-50 border border-red-200 rounded-lg p-4"
-              >
+              <div v-if="migrationError" class="bg-red-50 border border-red-200 rounded-lg p-4">
                 <div class="flex items-start gap-3">
                   <svg
                     class="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5"
@@ -509,27 +368,19 @@
                     ></path>
                   </svg>
                   <div class="flex-1">
-                    <p class="text-sm font-medium text-red-800">
-                      Erro na migração
-                    </p>
+                    <p class="text-sm font-medium text-red-800">Erro na migração</p>
                     <p class="text-sm text-red-700 mt-1">
                       {{ migrationError }}
                     </p>
                   </div>
                 </div>
-                <button
-                  @click="resetMigration"
-                  class="mt-4 text-sm text-red-700 hover:text-red-900 underline"
-                >
+                <button @click="resetMigration" class="mt-4 text-sm text-red-700 hover:text-red-900 underline">
                   ← Tentar novamente
                 </button>
               </div>
 
               <div v-if="migrationComplete" class="pt-6">
-                <router-link
-                  to="/login"
-                  class="btn-primary w-full block text-center"
-                >
+                <router-link to="/login" class="btn-primary w-full block text-center">
                   Fazer Login na Rede Capivara
                 </router-link>
               </div>
@@ -539,15 +390,8 @@
           <!-- Info Cards -->
           <div class="grid md:grid-cols-2 gap-6 mt-12">
             <div class="card bg-blue-50 p-4 rounded-lg">
-              <h3
-                class="text-lg font-semibold text-capivara-stone mb-3 flex items-center"
-              >
-                <svg
-                  class="w-5 h-5 mr-2 text-capivara-sky-blue"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
+              <h3 class="text-lg font-semibold text-capivara-stone mb-3 flex items-center">
+                <svg class="w-5 h-5 mr-2 text-capivara-sky-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path
                     stroke-linecap="round"
                     stroke-linejoin="round"
@@ -578,9 +422,7 @@
             </div>
 
             <div class="card bg-green-50 p-4 rounded-lg">
-              <h3
-                class="text-lg font-semibold text-capivara-stone mb-3 flex items-center"
-              >
+              <h3 class="text-lg font-semibold text-capivara-stone mb-3 flex items-center">
                 <svg
                   class="w-5 h-5 mr-2 text-capivara-green-lake"
                   fill="none"
@@ -623,72 +465,72 @@
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
-import { useRouter } from "vue-router";
-import { useToast } from "@/composables/useToast";
-import { migrateAccount, completeMigration } from "@/services/atproto";
+import { ref, computed } from 'vue'
+import { useRouter } from 'vue-router'
+import { useToast } from '@/composables/useToast'
+import { migrateAccount, completeMigration } from '@/services/atproto'
 
-const router = useRouter();
-const { success, error: showError, info, warning } = useToast();
+const router = useRouter()
+const { success, error: showError, info, warning } = useToast()
 
 // Form data
-const blueskyHandle = ref("");
-const blueskyPassword = ref("");
-const newHandle = ref("");
-const newEmail = ref("");
-const newPassword = ref("");
-const inviteCode = ref("");
-const keepHandle = ref(false);
+const blueskyHandle = ref('')
+const blueskyPassword = ref('')
+const newHandle = ref('')
+const newEmail = ref('')
+const newPassword = ref('')
+const inviteCode = ref('')
+const keepHandle = ref(false)
 
 // Migration options
-const migrateProfile = ref(true);
-const migratePosts = ref(true);
-const migrateFollows = ref(true);
-const migrateLikes = ref(false);
-const migrateBlocks = ref(false);
-const acceptTerms = ref(false);
+const migrateProfile = ref(true)
+const migratePosts = ref(true)
+const migrateFollows = ref(true)
+const migrateLikes = ref(true)
+const migrateBlocks = ref(true)
+const acceptTerms = ref(false)
 
 // Migration state
-const migrationStarted = ref(false);
-const migrationComplete = ref(false);
-const migrationError = ref("");
-const requiresEmailConfirmation = ref(false);
-const emailToken = ref("");
-const migrationData = ref(null);
+const migrationStarted = ref(false)
+const migrationComplete = ref(false)
+const migrationError = ref('')
+const requiresEmailConfirmation = ref(false)
+const emailToken = ref('')
+const migrationData = ref(null)
 
 const migrationSteps = ref([
   {
     id: 1,
-    title: "Validando conta Bluesky",
-    status: "pending",
-    description: "",
+    title: 'Validando conta Bluesky',
+    status: 'pending',
+    description: '',
   },
   {
     id: 2,
-    title: "Criando conta na Rede Capivara",
-    status: "pending",
-    description: "",
+    title: 'Criando conta na Rede Capivara',
+    status: 'pending',
+    description: '',
   },
   {
     id: 3,
-    title: "Exportando perfil e repositório",
-    status: "pending",
-    description: "",
+    title: 'Exportando perfil e repositório',
+    status: 'pending',
+    description: '',
   },
   {
     id: 4,
-    title: "Migrando posts e mídia",
-    status: "pending",
-    description: "",
+    title: 'Migrando posts e mídia',
+    status: 'pending',
+    description: '',
   },
   {
     id: 5,
-    title: "Importando conexões e preferências",
-    status: "pending",
-    description: "",
+    title: 'Importando conexões e preferências',
+    status: 'pending',
+    description: '',
   },
-  { id: 6, title: "Finalizando migração", status: "pending", description: "" },
-]);
+  { id: 6, title: 'Finalizando migração', status: 'pending', description: '' },
+])
 
 const canStartMigration = computed(() => {
   return (
@@ -699,28 +541,28 @@ const canStartMigration = computed(() => {
     newPassword.value &&
     inviteCode.value &&
     acceptTerms.value
-  );
-});
+  )
+})
 
-function updateMigrationProgress({ step, status, message }) {
-  const stepIndex = step - 1;
+const updateMigrationProgress = ({ step, status, message }) => {
+  const stepIndex = step - 1
   if (stepIndex >= 0 && stepIndex < migrationSteps.value.length) {
-    migrationSteps.value[stepIndex].status = status;
+    migrationSteps.value[stepIndex].status = status
     if (message) {
-      migrationSteps.value[stepIndex].description = message;
+      migrationSteps.value[stepIndex].description = message
     }
   }
 }
 
-async function startMigration() {
+const startMigration = async () => {
   if (!canStartMigration.value) {
-    showError("Preencha todos os campos obrigatórios");
-    return;
+    showError('Preencha todos os campos obrigatórios')
+    return
   }
 
-  migrationStarted.value = true;
-  migrationError.value = "";
-  info("Iniciando migração...");
+  migrationStarted.value = true
+  migrationError.value = ''
+  info('Iniciando migração...')
 
   try {
     const result = await migrateAccount(
@@ -734,63 +576,61 @@ async function startMigration() {
         keepHandle: keepHandle.value,
       },
       updateMigrationProgress
-    );
+    )
 
     if (result.requiresEmailConfirmation) {
-      requiresEmailConfirmation.value = true;
-      migrationData.value = result;
-      warning("📧 Verifique seu email para confirmar a mudança de identidade");
-      info("Digite o código de confirmação recebido por email para finalizar");
+      requiresEmailConfirmation.value = true
+      migrationData.value = result
+      warning('📧 Verifique seu email para confirmar a mudança de identidade')
+      info('Digite o código de confirmação recebido por email para finalizar')
     } else {
       // Migration complete without email confirmation
-      migrationComplete.value = true;
+      migrationComplete.value = true
 
       // Auto-login to Rede Capivara with new credentials
-      const finalHandle = keepHandle.value
-        ? blueskyHandle.value.replace(".bsky.social", "")
-        : newHandle.value;
+      const finalHandle = keepHandle.value ? blueskyHandle.value.replace('.bsky.social', '') : newHandle.value
 
       const loginResult = await authStore.login(
         `${finalHandle}.redecapivara.social`,
         newPassword.value,
-        "https://redecapivara.social"
-      );
+        'https://redecapivara.social'
+      )
 
       if (loginResult.success) {
-        success("🎉 Migração concluída com sucesso! Redirecionando...");
+        success('🎉 Migração concluída com sucesso! Redirecionando...')
         setTimeout(() => {
-          router.push("/");
-        }, 2000);
+          router.push('/')
+        }, 2000)
       } else {
-        success("🎉 Migração concluída! Faça login na Rede Capivara");
+        success('🎉 Migração concluída! Faça login na Rede Capivara')
       }
     }
   } catch (error) {
-    console.error("Migration error:", error);
-    migrationError.value = error.message || "Erro ao realizar migração";
-    showError(migrationError.value);
+    console.error('Migration error:', error)
+    migrationError.value = error.message || 'Erro ao realizar migração'
+    showError(migrationError.value)
 
     // Reset migration steps on error
     migrationSteps.value.forEach((step) => {
-      if (step.status === "processing") {
-        step.status = "pending";
+      if (step.status === 'processing') {
+        step.status = 'pending'
       }
-    });
-    migrationStarted.value = false;
+    })
+    migrationStarted.value = false
   }
 }
 
-async function confirmWithEmail() {
+const confirmWithEmail = async () => {
   if (!emailToken.value) {
-    showError("Digite o código de confirmação");
-    return;
+    showError('Digite o código de confirmação')
+    return
   }
 
   updateMigrationProgress({
     step: 6,
-    status: "processing",
-    message: "Finalizando com código de email...",
-  });
+    status: 'processing',
+    message: 'Finalizando com código de email...',
+  })
 
   try {
     await completeMigration(
@@ -798,57 +638,55 @@ async function confirmWithEmail() {
       migrationData.value.newAccessToken,
       emailToken.value,
       migrationData.value.didCreds
-    );
+    )
 
-    migrationComplete.value = true;
-    requiresEmailConfirmation.value = false;
+    migrationComplete.value = true
+    requiresEmailConfirmation.value = false
     updateMigrationProgress({
       step: 6,
-      status: "completed",
-      message: "Migração finalizada!",
-    });
+      status: 'completed',
+      message: 'Migração finalizada!',
+    })
 
     // Auto-login to Rede Capivara with new credentials
-    const finalHandle = keepHandle.value
-      ? blueskyHandle.value.replace(".bsky.social", "")
-      : newHandle.value;
+    const finalHandle = keepHandle.value ? blueskyHandle.value.replace('.bsky.social', '') : newHandle.value
 
     const loginResult = await authStore.login(
       `${finalHandle}.redecapivara.social`,
       newPassword.value,
-      "https://redecapivara.social"
-    );
+      'https://redecapivara.social'
+    )
 
     if (loginResult.success) {
-      success("🎉 Migração concluída com sucesso! Redirecionando...");
+      success('🎉 Migração concluída com sucesso! Redirecionando...')
       setTimeout(() => {
-        router.push("/");
-      }, 2000);
+        router.push('/')
+      }, 2000)
     } else {
-      success("🎉 Migração concluída! Faça login manualmente");
+      success('🎉 Migração concluída! Faça login manualmente')
     }
   } catch (error) {
-    console.error("Email confirmation error:", error);
-    showError(error.message || "Código inválido ou expirado");
+    console.error('Email confirmation error:', error)
+    showError(error.message || 'Código inválido ou expirado')
     updateMigrationProgress({
       step: 6,
-      status: "pending",
-      message: "Aguardando confirmação...",
-    });
+      status: 'pending',
+      message: 'Aguardando confirmação...',
+    })
   }
 }
 
-function resetMigration() {
-  migrationStarted.value = false;
-  migrationComplete.value = false;
-  migrationError.value = "";
-  requiresEmailConfirmation.value = false;
-  emailToken.value = "";
-  migrationData.value = null;
+const resetMigration = async () => {
+  migrationStarted.value = false
+  migrationComplete.value = false
+  migrationError.value = ''
+  requiresEmailConfirmation.value = false
+  emailToken.value = ''
+  migrationData.value = null
 
   migrationSteps.value.forEach((step) => {
-    step.status = "pending";
-    step.description = "";
-  });
+    step.status = 'pending'
+    step.description = ''
+  })
 }
 </script>

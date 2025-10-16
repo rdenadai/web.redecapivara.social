@@ -1,7 +1,7 @@
-import axios from "axios";
+import axios from 'axios'
 
-const BLUESKY_SERVER = "https://bsky.social";
-const REDE_CAPIVARA_SERVER = "https://redecapivara.social";
+const BLUESKY_SERVER = 'https://bsky.social'
+const REDE_CAPIVARA_SERVER = 'https://redecapivara.social'
 
 /**
  * Faz login no servidor ATProtocol
@@ -12,7 +12,7 @@ const REDE_CAPIVARA_SERVER = "https://redecapivara.social";
  */
 export async function atprotoLogin(identifier, password, serverUrl) {
   // Remove trailing slash
-  const baseUrl = serverUrl.replace(/\/$/, "");
+  const baseUrl = serverUrl.replace(/\/$/, '')
 
   const response = await axios.post(
     `${baseUrl}/xrpc/com.atproto.server.createSession`,
@@ -22,12 +22,12 @@ export async function atprotoLogin(identifier, password, serverUrl) {
     },
     {
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
     }
-  );
+  )
 
-  return response.data;
+  return response.data
 }
 
 /**
@@ -37,15 +37,15 @@ export async function atprotoLogin(identifier, password, serverUrl) {
  * @returns {AxiosInstance}
  */
 export function createAuthClient(serverUrl, accessToken) {
-  const baseUrl = serverUrl.replace(/\/$/, "");
+  const baseUrl = serverUrl.replace(/\/$/, '')
 
   return axios.create({
     baseURL: baseUrl,
     headers: {
       Authorization: `Bearer ${accessToken}`,
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
-  });
+  })
 }
 
 /**
@@ -60,11 +60,11 @@ export function createAuthClient(serverUrl, accessToken) {
  * @returns {Promise} Profile data
  */
 export async function getProfile(serverUrl, accessToken, actor) {
-  const client = createAuthClient(serverUrl, accessToken);
-  const response = await client.get("/xrpc/app.bsky.actor.getProfile", {
+  const client = createAuthClient(serverUrl, accessToken)
+  const response = await client.get('/xrpc/app.bsky.actor.getProfile', {
     params: { actor },
-  });
-  return response.data;
+  })
+  return response.data
 }
 
 /**
@@ -76,37 +76,24 @@ export async function getProfile(serverUrl, accessToken, actor) {
  * @param {string} cursor - Pagination cursor
  * @returns {Promise} Feed data
  */
-export async function getAuthorFeed(
-  serverUrl,
-  accessToken,
-  actor,
-  limit = 25,
-  cursor = undefined
-) {
-  const client = createAuthClient(serverUrl, accessToken);
-  const params = { actor, limit };
+export async function getAuthorFeed(serverUrl, accessToken, actor, limit = 25, cursor = undefined) {
+  const client = createAuthClient(serverUrl, accessToken)
+  const params = { actor, limit }
   if (cursor) {
-    params.cursor = cursor;
+    params.cursor = cursor
   }
-  const response = await client.get("/xrpc/app.bsky.feed.getAuthorFeed", {
+  const response = await client.get('/xrpc/app.bsky.feed.getAuthorFeed', {
     params,
-  });
-  return response.data;
+  })
+  return response.data
 }
 
-export async function getUnreadNotificationsCount(
-  serverUrl,
-  accessToken,
-  actor
-) {
-  const client = createAuthClient(serverUrl, accessToken);
-  const response = await client.get(
-    "/xrpc/app.bsky.notification.getUnreadCount",
-    {
-      params: { actor },
-    }
-  );
-  return response.data;
+export async function getUnreadNotificationsCount(serverUrl, accessToken, actor) {
+  const client = createAuthClient(serverUrl, accessToken)
+  const response = await client.get('/xrpc/app.bsky.notification.getUnreadCount', {
+    params: { actor },
+  })
+  return response.data
 }
 
 /**
@@ -118,25 +105,16 @@ export async function getUnreadNotificationsCount(
  * @param {string} cursor - Pagination cursor
  * @returns {Promise} Notifications data
  */
-export async function getNotifications(
-  serverUrl,
-  accessToken,
-  actor,
-  limit = 25,
-  cursor = undefined
-) {
-  const client = createAuthClient(serverUrl, accessToken);
-  const params = { actor, limit };
+export async function getNotifications(serverUrl, accessToken, actor, limit = 25, cursor = undefined) {
+  const client = createAuthClient(serverUrl, accessToken)
+  const params = { actor, limit }
   if (cursor) {
-    params.cursor = cursor;
+    params.cursor = cursor
   }
-  const response = await client.get(
-    "/xrpc/app.bsky.notification.listNotifications",
-    {
-      params,
-    }
-  );
-  return response.data;
+  const response = await client.get('/xrpc/app.bsky.notification.listNotifications', {
+    params,
+  })
+  return response.data
 }
 
 /**
@@ -148,22 +126,16 @@ export async function getNotifications(
  * @param {string} cursor - Pagination cursor
  * @returns {Promise} Followers data
  */
-export async function getFollowers(
-  serverUrl,
-  accessToken,
-  actor,
-  limit = 25,
-  cursor = undefined
-) {
-  const client = createAuthClient(serverUrl, accessToken);
-  const params = { actor, limit };
+export async function getFollowers(serverUrl, accessToken, actor, limit = 25, cursor = undefined) {
+  const client = createAuthClient(serverUrl, accessToken)
+  const params = { actor, limit }
   if (cursor) {
-    params.cursor = cursor;
+    params.cursor = cursor
   }
-  const response = await client.get("/xrpc/app.bsky.graph.getFollowers", {
+  const response = await client.get('/xrpc/app.bsky.graph.getFollowers', {
     params,
-  });
-  return response.data;
+  })
+  return response.data
 }
 
 /**
@@ -175,22 +147,16 @@ export async function getFollowers(
  * @param {string} cursor - Pagination cursor
  * @returns {Promise} Follows data
  */
-export async function getFollows(
-  serverUrl,
-  accessToken,
-  actor,
-  limit = 25,
-  cursor = undefined
-) {
-  const client = createAuthClient(serverUrl, accessToken);
-  const params = { actor, limit };
+export async function getFollows(serverUrl, accessToken, actor, limit = 25, cursor = undefined) {
+  const client = createAuthClient(serverUrl, accessToken)
+  const params = { actor, limit }
   if (cursor) {
-    params.cursor = cursor;
+    params.cursor = cursor
   }
-  const response = await client.get("/xrpc/app.bsky.graph.getFollows", {
+  const response = await client.get('/xrpc/app.bsky.graph.getFollows', {
     params,
-  });
-  return response.data;
+  })
+  return response.data
 }
 
 /**
@@ -202,22 +168,16 @@ export async function getFollows(
  * @param {string} cursor - Pagination cursor
  * @returns {Promise} Timeline data
  */
-export async function getTimeline(
-  serverUrl,
-  accessToken,
-  actor,
-  limit = 25,
-  cursor = undefined
-) {
-  const client = createAuthClient(serverUrl, accessToken);
-  const params = { actor, limit };
+export async function getTimeline(serverUrl, accessToken, actor, limit = 25, cursor = undefined) {
+  const client = createAuthClient(serverUrl, accessToken)
+  const params = { actor, limit }
   if (cursor) {
-    params.cursor = cursor;
+    params.cursor = cursor
   }
-  const response = await client.get("/xrpc/app.bsky.feed.getTimeline", {
+  const response = await client.get('/xrpc/app.bsky.feed.getTimeline', {
     params,
-  });
-  return response.data;
+  })
+  return response.data
 }
 
 /**
@@ -229,19 +189,16 @@ export async function getTimeline(
  */
 export async function getDidFromHandle(serverUrl, accessToken, handle) {
   try {
-    const client = createAuthClient(serverUrl, accessToken);
-    const response = await client.get(
-      "/xrpc/com.atproto.identity.resolveHandle",
-      {
-        params: { handle },
-      }
-    );
+    const client = createAuthClient(serverUrl, accessToken)
+    const response = await client.get('/xrpc/com.atproto.identity.resolveHandle', {
+      params: { handle },
+    })
 
     // response.data is expected to include a `did` field
-    return response?.data?.did ?? null;
+    return response?.data?.did ?? null
   } catch (err) {
-    console.error("Error resolving handle to DID:", err);
-    return null;
+    console.error('Error resolving handle to DID:', err)
+    return null
   }
 }
 
@@ -258,17 +215,11 @@ export async function getDidFromHandle(serverUrl, accessToken, handle) {
  * @param {string} postCid - CID of the post to like
  * @returns {Promise} Response with the created like record URI
  */
-export async function likePost(
-  serverUrl,
-  accessToken,
-  accountDid,
-  postUri,
-  postCid
-) {
-  const client = createAuthClient(serverUrl, accessToken);
-  const response = await client.post("/xrpc/com.atproto.repo.createRecord", {
+export async function likePost(serverUrl, accessToken, accountDid, postUri, postCid) {
+  const client = createAuthClient(serverUrl, accessToken)
+  const response = await client.post('/xrpc/com.atproto.repo.createRecord', {
     repo: accountDid,
-    collection: "app.bsky.feed.like",
+    collection: 'app.bsky.feed.like',
     record: {
       subject: {
         uri: postUri,
@@ -276,8 +227,8 @@ export async function likePost(
       },
       createdAt: new Date().toISOString(),
     },
-  });
-  return response.data;
+  })
+  return response.data
 }
 
 /**
@@ -289,24 +240,23 @@ export async function likePost(
  * @returns {Promise} Response from the delete operation
  */
 export async function unlikePost(serverUrl, accessToken, accountDid, likeUri) {
-  const client = createAuthClient(serverUrl, accessToken);
+  const client = createAuthClient(serverUrl, accessToken)
   // Parse the like URI to get repo and rkey
-  const rkey =
-    likeUri.replace("at://", "").split("/").filter(Boolean).at(-1) || "";
-  const response = await client.post("/xrpc/com.atproto.repo.deleteRecord", {
+  const rkey = likeUri.replace('at://', '').split('/').filter(Boolean).at(-1) || ''
+  const response = await client.post('/xrpc/com.atproto.repo.deleteRecord', {
     repo: accountDid,
-    collection: "app.bsky.feed.like",
+    collection: 'app.bsky.feed.like',
     rkey: rkey,
-  });
-  return response.data;
+  })
+  return response.data
 }
 
 export async function updateNotificationSeen(serverUrl, accessToken, seenAt) {
-  const client = createAuthClient(serverUrl, accessToken);
-  const response = await client.post("/xrpc/app.bsky.notification.updateSeen", {
+  const client = createAuthClient(serverUrl, accessToken)
+  const response = await client.post('/xrpc/app.bsky.notification.updateSeen', {
     seenAt: seenAt,
-  });
-  return response.data;
+  })
+  return response.data
 }
 
 /**
@@ -318,15 +268,51 @@ export async function updateNotificationSeen(serverUrl, accessToken, seenAt) {
  * @returns {Promise} Post data
  */
 export async function getPost(serverUrl, accessToken, accountDid, postId) {
-  const client = createAuthClient(serverUrl, accessToken);
-  const response = await client.get("/xrpc/com.atproto.repo.getRecord", {
+  const client = createAuthClient(serverUrl, accessToken)
+  const response = await client.get('/xrpc/com.atproto.repo.getRecord', {
     params: {
       repo: accountDid,
       rkey: postId,
-      collection: "app.bsky.feed.post",
+      collection: 'app.bsky.feed.post',
     },
-  });
-  return response.data;
+  })
+  return response.data
+}
+
+/**
+ * ACCOUNT CREATION
+ */
+
+/**
+ * Create a new account on the specified ATProtocol server
+ * @param {Object} params - Account creation parameters
+ * @param {string} params.email - Email address
+ * @param {string} params.handle - Desired handle (without domain)
+ * @param {string} params.password - Password
+ * @param {string} [params.inviteCode] - Optional invite code if required by server
+ * @returns {Promise} Response with account details and tokens
+ */
+export async function createAccount(params) {
+  const { email, handle, password, inviteCode } = params
+
+  const body = {
+    email,
+    handle: `${handle}.redecapivara.social`,
+    password,
+  }
+
+  // Add invite code if provided (required by most servers)
+  if (inviteCode) {
+    body.inviteCode = inviteCode
+  }
+
+  const response = await axios.post(`${REDE_CAPIVARA_SERVER}/xrpc/com.atproto.server.createAccount`, body, {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+
+  return response
 }
 
 /**
@@ -337,21 +323,21 @@ export async function getPost(serverUrl, accessToken, accountDid, postId) {
  * Step 1: Login to Bluesky to get session tokens
  */
 export async function loginToBluesky(identifier, password) {
-  return await atprotoLogin(identifier, password, BLUESKY_SERVER);
+  return await atprotoLogin(identifier, password, BLUESKY_SERVER)
 }
 
 /**
  * Step 2: Get service auth token from old PDS (Bluesky)
  */
 export async function getServiceAuth(accessToken, did) {
-  const client = createAuthClient(BLUESKY_SERVER, accessToken);
-  const response = await client.get("/xrpc/com.atproto.server.getServiceAuth", {
+  const client = createAuthClient(BLUESKY_SERVER, accessToken)
+  const response = await client.get('/xrpc/com.atproto.server.getServiceAuth', {
     params: {
       aud: `did:web:${new URL(REDE_CAPIVARA_SERVER).hostname}`,
-      lxm: "com.atproto.server.createAccount",
+      lxm: 'com.atproto.server.createAccount',
     },
-  });
-  return response.data;
+  })
+  return response.data
 }
 
 /**
@@ -359,145 +345,124 @@ export async function getServiceAuth(accessToken, did) {
  * Note: When creating with existing DID, requires service auth token
  */
 export async function createAccountWithDID(params) {
-  const { email, handle, password, did, inviteCode, serviceAuthToken } = params;
+  const { email, handle, password, did, inviteCode, serviceAuthToken } = params
 
   const body = {
     email,
     handle: `${handle}.redecapivara.social`,
     password,
     did, // Existing DID from Bluesky
-  };
+  }
 
   // Add invite code if provided (required by most servers)
   if (inviteCode) {
-    body.inviteCode = inviteCode;
+    body.inviteCode = inviteCode
   }
 
   // For accounts with existing DID, send service auth token as Authorization header
   const headers = {
-    "Content-Type": "application/json",
-  };
-
-  if (serviceAuthToken) {
-    headers["Authorization"] = `Bearer ${serviceAuthToken}`;
+    'Content-Type': 'application/json',
   }
 
-  const response = await axios.post(
-    `${REDE_CAPIVARA_SERVER}/xrpc/com.atproto.server.createAccount`,
-    body,
-    { headers }
-  );
+  if (serviceAuthToken) {
+    headers['Authorization'] = `Bearer ${serviceAuthToken}`
+  }
 
-  return response.data;
+  const response = await axios.post(`${REDE_CAPIVARA_SERVER}/xrpc/com.atproto.server.createAccount`, body, { headers })
+
+  return response.data
 }
 /**
  * Step 4: Check account status
  */
 export async function checkAccountStatus(accessToken) {
-  const client = createAuthClient(REDE_CAPIVARA_SERVER, accessToken);
-  const response = await client.get(
-    "/xrpc/com.atproto.server.checkAccountStatus"
-  );
-  return response.data;
+  const client = createAuthClient(REDE_CAPIVARA_SERVER, accessToken)
+  const response = await client.get('/xrpc/com.atproto.server.checkAccountStatus')
+  return response.data
 }
 
 /**
  * Step 5: Get repository from Bluesky as CAR file
  */
 export async function getRepo(accessToken, did, since = null) {
-  const params = { did };
-  if (since) params.since = since;
+  const params = { did }
+  if (since) params.since = since
 
-  const response = await axios.get(
-    `${BLUESKY_SERVER}/xrpc/com.atproto.sync.getRepo`,
-    {
-      params,
-      responseType: "arraybuffer",
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    }
-  );
+  const response = await axios.get(`${BLUESKY_SERVER}/xrpc/com.atproto.sync.getRepo`, {
+    params,
+    responseType: 'arraybuffer',
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  })
 
-  return response.data;
+  return response.data
 }
 
 /**
  * Step 6: Import repository to Rede Capivara
  */
 export async function importRepo(accessToken, carFile) {
-  const client = createAuthClient(REDE_CAPIVARA_SERVER, accessToken);
+  const client = createAuthClient(REDE_CAPIVARA_SERVER, accessToken)
 
-  const response = await client.post(
-    "/xrpc/com.atproto.repo.importRepo",
-    carFile,
-    {
-      headers: {
-        "Content-Type": "application/vnd.ipld.car",
-      },
-    }
-  );
+  const response = await client.post('/xrpc/com.atproto.repo.importRepo', carFile, {
+    headers: {
+      'Content-Type': 'application/vnd.ipld.car',
+    },
+  })
 
-  return response.data;
+  return response.data
 }
 
 /**
  * Step 7: List blobs from old PDS
  */
 export async function listBlobs(accessToken, did) {
-  const client = createAuthClient(BLUESKY_SERVER, accessToken);
-  const response = await client.get("/xrpc/com.atproto.sync.listBlobs", {
+  const client = createAuthClient(BLUESKY_SERVER, accessToken)
+  const response = await client.get('/xrpc/com.atproto.sync.listBlobs', {
     params: { did },
-  });
-  return response.data;
+  })
+  return response.data
 }
 
 /**
  * Step 8: List missing blobs on new PDS
  */
 export async function listMissingBlobs(accessToken) {
-  const client = createAuthClient(REDE_CAPIVARA_SERVER, accessToken);
-  const response = await client.get("/xrpc/com.atproto.repo.listMissingBlobs");
-  return response.data;
+  const client = createAuthClient(REDE_CAPIVARA_SERVER, accessToken)
+  const response = await client.get('/xrpc/com.atproto.repo.listMissingBlobs')
+  return response.data
 }
 
 /**
  * Step 9: Upload blob to new PDS
  */
 export async function uploadBlob(accessToken, blob) {
-  const client = createAuthClient(REDE_CAPIVARA_SERVER, accessToken);
-  const response = await client.post(
-    "/xrpc/com.atproto.repo.uploadBlob",
-    blob,
-    {
-      headers: {
-        "Content-Type": blob.type || "application/octet-stream",
-      },
-    }
-  );
-  return response.data;
+  const client = createAuthClient(REDE_CAPIVARA_SERVER, accessToken)
+  const response = await client.post('/xrpc/com.atproto.repo.uploadBlob', blob, {
+    headers: {
+      'Content-Type': blob.type || 'application/octet-stream',
+    },
+  })
+  return response.data
 }
 
 /**
  * Step 10: Get recommended DID credentials from new PDS
  */
 export async function getRecommendedDidCredentials(accessToken) {
-  const client = createAuthClient(REDE_CAPIVARA_SERVER, accessToken);
-  const response = await client.get(
-    "/xrpc/com.atproto.identity.getRecommendedDidCredentials"
-  );
-  return response.data;
+  const client = createAuthClient(REDE_CAPIVARA_SERVER, accessToken)
+  const response = await client.get('/xrpc/com.atproto.identity.getRecommendedDidCredentials')
+  return response.data
 }
 
 /**
  * Step 11: Request PLC operation signature from old PDS
  */
 export async function requestPlcOperationSignature(oldAccessToken) {
-  const client = createAuthClient(BLUESKY_SERVER, oldAccessToken);
-  const response = await client.post(
-    "/xrpc/com.atproto.identity.requestPlcOperationSignature"
-  );
-  return response.data;
+  const client = createAuthClient(BLUESKY_SERVER, oldAccessToken)
+  const response = await client.post('/xrpc/com.atproto.identity.requestPlcOperationSignature')
+  return response.data
 }
 
 /**
@@ -511,129 +476,108 @@ export async function signPlcOperation(
   verificationMethods,
   services
 ) {
-  const client = createAuthClient(BLUESKY_SERVER, oldAccessToken);
-  const response = await client.post(
-    "/xrpc/com.atproto.identity.signPlcOperation",
-    {
-      token,
-      rotationKeys,
-      alsoKnownAs,
-      verificationMethods,
-      services,
-    }
-  );
-  return response.data;
+  const client = createAuthClient(BLUESKY_SERVER, oldAccessToken)
+  const response = await client.post('/xrpc/com.atproto.identity.signPlcOperation', {
+    token,
+    rotationKeys,
+    alsoKnownAs,
+    verificationMethods,
+    services,
+  })
+  return response.data
 }
 
 /**
  * Step 13: Submit PLC operation to new PDS
  */
 export async function submitPlcOperation(accessToken, operation) {
-  const client = createAuthClient(REDE_CAPIVARA_SERVER, accessToken);
-  const response = await client.post(
-    "/xrpc/com.atproto.identity.submitPlcOperation",
-    {
-      operation,
-    }
-  );
-  return response.data;
+  const client = createAuthClient(REDE_CAPIVARA_SERVER, accessToken)
+  const response = await client.post('/xrpc/com.atproto.identity.submitPlcOperation', {
+    operation,
+  })
+  return response.data
 }
 
 /**
  * Step 14: Activate account on new PDS
  */
 export async function activateAccount(accessToken) {
-  const client = createAuthClient(REDE_CAPIVARA_SERVER, accessToken);
-  const response = await client.post(
-    "/xrpc/com.atproto.server.activateAccount"
-  );
-  return response.data;
+  const client = createAuthClient(REDE_CAPIVARA_SERVER, accessToken)
+  const response = await client.post('/xrpc/com.atproto.server.activateAccount')
+  return response.data
 }
 
 /**
  * Step 15: Deactivate account on old PDS
  */
 export async function deactivateAccount(oldAccessToken, deleteAfter = null) {
-  const client = createAuthClient(BLUESKY_SERVER, oldAccessToken);
-  const params = {};
-  if (deleteAfter) params.deleteAfter = deleteAfter;
+  const client = createAuthClient(BLUESKY_SERVER, oldAccessToken)
+  const params = {}
+  if (deleteAfter) params.deleteAfter = deleteAfter
 
-  const response = await client.post(
-    "/xrpc/com.atproto.server.deactivateAccount",
-    params
-  );
-  return response.data;
+  const response = await client.post('/xrpc/com.atproto.server.deactivateAccount', params)
+  return response.data
 }
 
 /**
  * Export user preferences from Bluesky
  */
 export async function getPreferences(accessToken) {
-  const client = createAuthClient(BLUESKY_SERVER, accessToken);
-  const response = await client.get("/xrpc/app.bsky.actor.getPreferences");
-  return response.data;
+  const client = createAuthClient(BLUESKY_SERVER, accessToken)
+  const response = await client.get('/xrpc/app.bsky.actor.getPreferences')
+  return response.data
 }
 
 /**
  * Import user preferences to Rede Capivara
  */
 export async function putPreferences(accessToken, preferences) {
-  const client = createAuthClient(REDE_CAPIVARA_SERVER, accessToken);
-  const response = await client.post("/xrpc/app.bsky.actor.putPreferences", {
+  const client = createAuthClient(REDE_CAPIVARA_SERVER, accessToken)
+  const response = await client.post('/xrpc/app.bsky.actor.putPreferences', {
     preferences,
-  });
-  return response.data;
+  })
+  return response.data
 }
 
 /**
  * Complete migration orchestration
  */
 export async function migrateAccount(params, onProgress) {
-  const {
-    blueskyHandle,
-    blueskyPassword,
-    newHandle,
-    newEmail,
-    newPassword,
-    inviteCode,
-    keepHandle = false,
-  } = params;
+  const { blueskyHandle, blueskyPassword, newHandle, newEmail, newPassword, inviteCode, keepHandle = false } = params
 
   try {
     // Step 1: Login to Bluesky
     onProgress({
       step: 1,
-      status: "processing",
-      message: "Conectando ao Bluesky...",
-    });
-    const blueskySession = await loginToBluesky(blueskyHandle, blueskyPassword);
-    const oldAccessToken = blueskySession.accessJwt;
-    const did = blueskySession.did;
+      status: 'processing',
+      message: 'Conectando ao Bluesky...',
+    })
+    const blueskySession = await loginToBluesky(blueskyHandle, blueskyPassword)
+    const oldAccessToken = blueskySession.accessJwt
+    const did = blueskySession.did
 
     // Step 1.5: Get service auth token from Bluesky
     onProgress({
       step: 1,
-      status: "processing",
-      message: "Obtendo autorização do Bluesky...",
-    });
-    const serviceAuth = await getServiceAuth(oldAccessToken, did);
-    const serviceAuthToken = serviceAuth.token;
+      status: 'processing',
+      message: 'Obtendo autorização do Bluesky...',
+    })
+    const serviceAuth = await getServiceAuth(oldAccessToken, did)
+    const serviceAuthToken = serviceAuth.token
 
     onProgress({
       step: 1,
-      status: "completed",
-      message: "Conectado ao Bluesky!",
-    });
+      status: 'completed',
+      message: 'Conectado ao Bluesky!',
+    })
 
     // Step 2: Create account on Rede Capivara with service auth
     onProgress({
       step: 2,
-      status: "processing",
-      message: "Criando conta na Rede Capivara...",
-    });
-    const finalHandle = keepHandle
-      ? blueskyHandle.replace(".bsky.social", "")
-      : newHandle;
+      status: 'processing',
+      message: 'Criando conta na Rede Capivara...',
+    })
+    const finalHandle = keepHandle ? blueskyHandle.replace('.bsky.social', '') : newHandle
 
     const newAccount = await createAccountWithDID({
       email: newEmail,
@@ -642,51 +586,51 @@ export async function migrateAccount(params, onProgress) {
       did: did, // Existing DID from Bluesky
       inviteCode: inviteCode, // Invite code required by server
       serviceAuthToken: serviceAuthToken, // Service auth from Bluesky
-    });
+    })
 
-    const newAccessToken = newAccount.accessJwt;
+    const newAccessToken = newAccount.accessJwt
     onProgress({
       step: 2,
-      status: "completed",
+      status: 'completed',
       message: `Conta @${finalHandle}.redecapivara.social criada!`,
-    });
+    })
 
     // Step 4: Check account status
     onProgress({
       step: 3,
-      status: "processing",
-      message: "Verificando status da conta...",
-    });
-    await checkAccountStatus(newAccessToken);
+      status: 'processing',
+      message: 'Verificando status da conta...',
+    })
+    await checkAccountStatus(newAccessToken)
 
     // Step 5: Export repository from Bluesky
     onProgress({
       step: 3,
-      status: "processing",
-      message: "Exportando repositório do Bluesky...",
-    });
-    const carFile = await getRepo(oldAccessToken, did);
+      status: 'processing',
+      message: 'Exportando repositório do Bluesky...',
+    })
+    const carFile = await getRepo(oldAccessToken, did)
     onProgress({
       step: 3,
-      status: "completed",
-      message: "Repositório exportado!",
-    });
+      status: 'completed',
+      message: 'Repositório exportado!',
+    })
 
     // Step 6: Import repository to Rede Capivara
     onProgress({
       step: 4,
-      status: "processing",
-      message: "Importando posts...",
-    });
-    await importRepo(newAccessToken, carFile);
-    onProgress({ step: 4, status: "completed", message: "Posts importados!" });
+      status: 'processing',
+      message: 'Importando posts...',
+    })
+    await importRepo(newAccessToken, carFile)
+    onProgress({ step: 4, status: 'completed', message: 'Posts importados!' })
 
     // Step 7: Migrate blobs (media files)
     onProgress({
       step: 4,
-      status: "processing",
-      message: "Migrando arquivos de mídia...",
-    });
+      status: 'processing',
+      message: 'Migrando arquivos de mídia...',
+    })
 
     // try {
     //   const blobsList = await listBlobs(oldAccessToken, did);
@@ -727,9 +671,9 @@ export async function migrateAccount(params, onProgress) {
     //   } else {
     onProgress({
       step: 4,
-      status: "completed",
-      message: "Nenhum arquivo de mídia para migrar",
-    });
+      status: 'completed',
+      message: 'Nenhum arquivo de mídia para migrar',
+    })
     //   }
     // } catch (err) {
     //   console.warn("Blob migration failed:", err);
@@ -743,36 +687,36 @@ export async function migrateAccount(params, onProgress) {
     // Step 8: Export and import preferences
     onProgress({
       step: 5,
-      status: "processing",
-      message: "Importando preferências...",
-    });
-    const preferences = await getPreferences(oldAccessToken);
-    await putPreferences(newAccessToken, preferences.preferences);
+      status: 'processing',
+      message: 'Importando preferências...',
+    })
+    const preferences = await getPreferences(oldAccessToken)
+    await putPreferences(newAccessToken, preferences.preferences)
     onProgress({
       step: 5,
-      status: "completed",
-      message: "Conexões restauradas!",
-    });
+      status: 'completed',
+      message: 'Conexões restauradas!',
+    })
 
     // Step 9: Update identity (PLC operation)
     onProgress({
       step: 6,
-      status: "processing",
-      message: "Atualizando identidade...",
-    });
-    const didCreds = await getRecommendedDidCredentials(newAccessToken);
+      status: 'processing',
+      message: 'Atualizando identidade...',
+    })
+    const didCreds = await getRecommendedDidCredentials(newAccessToken)
 
     // Request email token for PLC operation
-    await requestPlcOperationSignature(oldAccessToken);
+    await requestPlcOperationSignature(oldAccessToken)
 
     // Note: User needs to check email and provide token
     // This would require UI interaction, so we'll skip auto-submission for now
 
     onProgress({
       step: 6,
-      status: "processing",
-      message: "Verifique seu email para confirmar a mudança de identidade...",
-    });
+      status: 'processing',
+      message: 'Verifique seu email para confirmar a mudança de identidade...',
+    })
 
     // Return session info for manual PLC operation completion
     return {
@@ -783,24 +727,17 @@ export async function migrateAccount(params, onProgress) {
       newAccount,
       requiresEmailConfirmation: true,
       didCreds,
-    };
+    }
   } catch (error) {
-    console.error("Migration error:", error);
-    throw new Error(
-      error.response?.data?.message || error.message || "Erro na migração"
-    );
+    console.error('Migration error:', error)
+    throw new Error(error.response?.data?.message || error.message || 'Erro na migração')
   }
 }
 
 /**
  * Complete migration after email confirmation
  */
-export async function completeMigration(
-  oldAccessToken,
-  newAccessToken,
-  emailToken,
-  didCreds
-) {
+export async function completeMigration(oldAccessToken, newAccessToken, emailToken, didCreds) {
   try {
     // Sign PLC operation
     const plcOp = await signPlcOperation(
@@ -810,26 +747,22 @@ export async function completeMigration(
       didCreds.alsoKnownAs,
       didCreds.verificationMethods,
       didCreds.services
-    );
+    )
 
     // Submit to new PDS
-    await submitPlcOperation(newAccessToken, plcOp.operation);
+    await submitPlcOperation(newAccessToken, plcOp.operation)
 
     // Activate new account
-    await activateAccount(newAccessToken);
+    await activateAccount(newAccessToken)
 
     // Deactivate old account (with 72hr grace period)
     // const deleteAfter = new Date();
     // deleteAfter.setHours(deleteAfter.getHours() + 72);
     // await deactivateAccount(oldAccessToken, deleteAfter.toISOString());
 
-    return { success: true };
+    return { success: true }
   } catch (error) {
-    console.error("Complete migration error:", error);
-    throw new Error(
-      error.response?.data?.message ||
-        error.message ||
-        "Erro ao finalizar migração"
-    );
+    console.error('Complete migration error:', error)
+    throw new Error(error.response?.data?.message || error.message || 'Erro ao finalizar migração')
   }
 }
