@@ -86,6 +86,7 @@
                     v-else
                     v-model="newPassword"
                     :disabled="disableCreateAccountButton"
+                    type="text"
                     placeholder="••••••••"
                     class="input-field"
                     maxlength="32"
