@@ -49,8 +49,8 @@ onMounted(async () => {
 })
 
 onUnmounted(() => {
-  if (intervalId.value) {
-    clearInterval(intervalId.value)
+  if (autoRefreshTokenIntervalId.value) {
+    clearInterval(autoRefreshTokenIntervalId.value)
   }
 })
 
