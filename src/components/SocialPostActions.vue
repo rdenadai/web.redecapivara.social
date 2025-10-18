@@ -156,7 +156,7 @@ const repostPostAction = async () => {
     post.value.viewer.repost = result.uri
     showRepostMenu.value = false
   } catch (error) {
-    toast.error('Erro ao repostar:', error)
+    toast.error(`Erro ao repostar: ${error && error.message ? error.message : error}`)
   }
 }
 
