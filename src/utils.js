@@ -1,35 +1,51 @@
 export function dedupeAppend(existing, incoming) {
-  const map = new Map();
-  for (const f of existing) map.set(f.did, f);
-  for (const f of incoming) map.set(f.did, f);
-  return Array.from(map.values());
+  const map = new Map()
+  for (const f of existing) map.set(f.did, f)
+  for (const f of incoming) map.set(f.did, f)
+  return Array.from(map.values())
 }
 
 export function numberOfHoursAgo(date) {
-  const now = new Date();
-  const past = new Date(date);
-  const diffInMs = now - past;
-  const diffInHours = Math.floor(diffInMs / (1000 * 60 * 60));
-  return diffInHours;
+  const now = new Date()
+  const past = new Date(date)
+  const diffInMs = now - past
+  const diffInHours = Math.floor(diffInMs / (1000 * 60 * 60))
+  return diffInHours
 }
 
 export function numberOfHoursOrMinutesAgo(date) {
-  const now = new Date();
-  const past = new Date(date);
-  const diffInMs = now - past;
-  const diffInHours = Math.floor(diffInMs / (1000 * 60 * 60));
+  const now = new Date()
+  const past = new Date(date)
+  const diffInMs = now - past
+  const diffInHours = Math.floor(diffInMs / (1000 * 60 * 60))
   if (diffInHours > 0) {
-    return diffInHours + "h";
+    return diffInHours + 'h'
   }
-  const diffInMinutes = Math.floor(diffInMs / (1000 * 60));
-  return diffInMinutes + "m";
+  const diffInMinutes = Math.floor(diffInMs / (1000 * 60))
+  return diffInMinutes + 'm'
+}
+
+export function numberOfDaysHoursOrMinutesAgo(date) {
+  const now = new Date()
+  const past = new Date(date)
+  const diffInMs = now - past
+  const diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24))
+  if (diffInDays > 0) {
+    return diffInDays + 'd'
+  }
+  const diffInHours = Math.floor(diffInMs / (1000 * 60 * 60))
+  if (diffInHours > 0) {
+    return diffInHours + 'h'
+  }
+  const diffInMinutes = Math.floor(diffInMs / (1000 * 60))
+  return diffInMinutes + 'm'
 }
 
 export function formatDate(date) {
-  const d = new Date(date);
-  return d.toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-  });
+  const d = new Date(date)
+  return d.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+  })
 }

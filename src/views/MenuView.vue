@@ -3,27 +3,20 @@
   <header class="bg-white shadow-sm sticky top-0 z-50 px-2">
     <div class="max-w-7xl mx-auto md:px-4">
       <div class="flex justify-between items-center h-16">
-        <!-- Logo --><router-link to="/">
+        <!-- Logo -->
+        <router-link to="/">
           <div class="flex items-center space-x-3">
             <div class="flex items-center justify-center">
-              <img
-                src="/capivara-icon.svg"
-                alt="Rede Capivara Logo"
-                class="w-12 h-12"
-              />
+              <img src="/capivara-icon.svg" alt="Rede Capivara Logo" class="w-12 h-12" />
             </div>
-            <span class="text-xl font-bold text-capivara-stone">
-              Rede Capivara
-            </span>
+            <span class="text-xl font-bold text-capivara-stone"> Rede Capivara </span>
           </div>
         </router-link>
 
         <!-- User menu -->
         <div class="flex items-center space-x-4">
           <div class="text-right hidden sm:block">
-            <p class="text-sm font-medium text-capivara-stone">
-              @{{ authStore.user }}
-            </p>
+            <p class="text-sm font-medium text-capivara-stone">@{{ authStore.user }}</p>
             <p class="text-xs text-capivara-stone/60">{{ serverName }}</p>
           </div>
 
@@ -34,14 +27,14 @@
                   v-if="profileData.avatar"
                   :src="profileData.avatar"
                   alt="Avatar"
-                  class="w-10 h-10 rounded-full object-cover cursor-pointer"
+                  class="w-12 h-12 rounded-full object-cover cursor-pointer"
                 />
                 <span
                   v-if="notificationsCount > 0"
                   :aria-label="`Você tem ${notificationsCount} notificações não lidas`"
-                  class="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-medium w-5 h-5 rounded-full flex items-center justify-center border-2 border-white"
+                  class="absolute -top-1.5 -right-3 bg-red-500 text-white text-[0.65em] font-medium w-7 h-7 rounded-lg flex items-center justify-center border-2 border-white leading-none"
                 >
-                  {{ notificationsCount > 99 ? "99+" : notificationsCount }}
+                  {{ notificationsCount > 30 ? '30+' : notificationsCount }}
                 </span>
               </router-link>
             </div>
@@ -52,24 +45,16 @@
                 <div class="space-y-1 text-xs">
                   <div class="flex justify-between items-center">
                     <span class="text-capivara-stone/60">DID:</span>
-                    <span class="text-capivara-stone font-mono ml-2">{{
-                      authStore.did || "N/A"
-                    }}</span>
+                    <span class="text-capivara-stone font-mono ml-2">{{ authStore.did || 'N/A' }}</span>
                   </div>
                   <div class="flex justify-between items-center">
                     <span class="text-capivara-stone/60">Servidor:</span>
-                    <span class="text-capivara-sky-blue font-medium ml-2">{{
-                      serverName
-                    }}</span>
+                    <span class="text-capivara-sky-blue font-medium ml-2">{{ serverName }}</span>
                   </div>
                   <div class="flex justify-between items-center">
                     <span class="text-capivara-stone/60">Status:</span>
-                    <span
-                      class="flex items-center text-capivara-green-lake font-medium"
-                    >
-                      <span
-                        class="w-2 h-2 bg-capivara-green-lake rounded-full mr-1"
-                      ></span>
+                    <span class="flex items-center text-capivara-green-lake font-medium">
+                      <span class="w-2 h-2 bg-capivara-green-lake rounded-full mr-1"></span>
                       Conectado
                     </span>
                   </div>
@@ -80,15 +65,10 @@
 
           <button
             @click="handleLogout"
-            class="p-2 rounded-lg hover:bg-capivara-off-white transition-colors"
+            class="p-2 rounded-full hover:bg-capivara-off-white transition-colors cursor-pointer"
             title="Sair"
           >
-            <svg
-              class="w-5 h-5 text-capivara-stone"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
+            <svg class="w-5 h-5 text-capivara-stone" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path
                 stroke-linecap="round"
                 stroke-width="2"
@@ -103,65 +83,62 @@
 </template>
 
 <script setup>
-import { computed, ref, onMounted, onUnmounted } from "vue";
-import { useRouter } from "vue-router";
-import { useAuthStore } from "@/stores/auth";
-import { useCache } from "@/composables/useCache";
-import { useProfile } from "@/composables/useProfile";
-import { getUnreadNotificationsCount } from "@/services/atproto";
+import { computed, ref, onMounted, onUnmounted } from 'vue'
+import { useRouter } from 'vue-router'
+import { useAuthStore } from '@/stores/auth'
+import { useCache } from '@/composables/useCache'
+import { useProfile } from '@/composables/useProfile'
+import { getUnreadNotificationsCount } from '@/services/atproto'
 
-const interval = 60000; // 1 minute
+const interval = 60000 // 1 minute
 
-const router = useRouter();
-const authStore = useAuthStore();
-const cache = useCache();
-const { profileData } = useProfile();
+const router = useRouter()
+const authStore = useAuthStore()
+const cache = useCache()
+const { profileData } = useProfile()
 
-const intervalId = ref(null);
-const notificationsCount = ref(0);
+const intervalId = ref(null)
+
+const notificationsCount = ref(0)
 
 const serverName = computed(() => {
   try {
-    const url = new URL(authStore.server || "");
-    return url.hostname;
+    const url = new URL(authStore.server || '')
+    return url.hostname
   } catch {
-    return "N/A";
+    return 'N/A'
   }
-});
+})
 
 const handleLogout = () => {
-  if (confirm("Deseja realmente sair?")) {
-    authStore.logout();
-    cache.clear();
-    router.push("/login");
+  if (confirm('Deseja realmente sair?')) {
+    authStore.logout()
+    cache.clear()
+    router.push('/login')
   }
-};
+}
 
 const fetchUnreadNotificationsCount = async () => {
   try {
-    const response = await getUnreadNotificationsCount(
-      authStore.server,
-      authStore.accessToken,
-      authStore.did
-    );
-    if (response && typeof response.count === "number") {
-      notificationsCount.value = response.count;
+    const response = await getUnreadNotificationsCount(authStore.server, authStore.accessToken, authStore.did)
+    if (response && typeof response.count === 'number') {
+      notificationsCount.value = response.count
     } else {
-      console.error("Failed to fetch unread notifications count");
+      console.error('Failed to fetch unread notifications count')
     }
   } catch (err) {
-    console.error("Error fetching unread notifications count:", err);
+    console.error('Error fetching unread notifications count:', err)
   }
-};
+}
 
 onMounted(async () => {
-  await fetchUnreadNotificationsCount();
-  intervalId.value = setInterval(fetchUnreadNotificationsCount, interval);
-});
+  await fetchUnreadNotificationsCount()
+  intervalId.value = setInterval(fetchUnreadNotificationsCount, interval)
+})
 
 onUnmounted(() => {
   if (intervalId.value) {
-    clearInterval(intervalId.value);
+    clearInterval(intervalId.value)
   }
-});
+})
 </script>

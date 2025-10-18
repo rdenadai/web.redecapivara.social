@@ -9,7 +9,7 @@
         <div>
           <h1 class="text-2xl font-bold mb-2 text-black/80 px-4 py-4">Seguidores ({{ statsData.followers }})</h1>
           <div class="mt-2 space-y-4">
-            <div v-for="person in followers" :key="person.did" class="flex flex-col items-start p-4 bg-white">
+            <div v-for="person in followers" :key="person.did" class="flex flex-col items-start px-4 bg-white">
               <div class="flex items-start space-x-4">
                 <img
                   v-if="person.avatar"
@@ -40,7 +40,7 @@
                 </div>
               </div>
               <!-- Separator -->
-              <div class="flex border-t border-capivara-stone/10 w-full mt-4"></div>
+              <div class="flex border-t border-capivara-stone/20 w-full mt-4"></div>
             </div>
             <p v-if="followers.length === 0 && !loadingMore" class="text-capivara-stone/80">
               Você ainda não tem seguidores.

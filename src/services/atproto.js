@@ -30,6 +30,14 @@ export async function atprotoLogin(identifier, password, serverUrl) {
   return response.data
 }
 
+export async function atprotoLogout(serverUrl, accessToken, refreshJwt) {
+  const client = createAuthClient(serverUrl, accessToken)
+  const response = await client.post('/xrpc/com.atproto.server.deleteSession', {
+    headers: { authorization: `Bearer ${refreshJwt}` },
+  })
+  return response?.data
+}
+
 /**
  * Cria um cliente axios configurado com autenticação
  * @param {string} serverUrl - URL do servidor
@@ -46,6 +54,24 @@ export function createAuthClient(serverUrl, accessToken) {
       'Content-Type': 'application/json',
     },
   })
+}
+
+/**
+ * Atualiza o token de autenticação usando o refresh token
+ * @param {string} serverUrl - URL do servidor ATProtocol
+ * @param {string} accessToken - Token de acesso atual
+ * @param {string} refreshJwt - Token de refresh
+ * @returns {Promise} Resposta do servidor com novos tokens
+ */
+export async function refreshAuthClientToken(serverUrl, accessToken, refreshJwt) {
+  const client = createAuthClient(serverUrl, accessToken)
+  const response = await client.post('/xrpc/com.atproto.server.refreshSession', undefined, {
+    headers: {
+      Authorization: `Bearer ${refreshJwt}`,
+      'Content-Type': 'application/json',
+    },
+  })
+  return response?.data
 }
 
 /**
@@ -251,10 +277,66 @@ export async function unlikePost(serverUrl, accessToken, accountDid, likeUri) {
   return response.data
 }
 
+/**
+ * Marcar notificações como vistas
+ * @param {string} serverUrl - URL do servidor ATProtocol
+ * @param {string} accessToken - Token de acesso para autenticação
+ * @param {string} seenAt - Timestamp ISO das notificações vistas
+ * @returns {Promise} Resposta do servidor
+ */
 export async function updateNotificationSeen(serverUrl, accessToken, seenAt) {
   const client = createAuthClient(serverUrl, accessToken)
   const response = await client.post('/xrpc/app.bsky.notification.updateSeen', {
     seenAt: seenAt,
+  })
+  return response.data
+}
+
+/**
+ * Criar um novo post
+ * @param {string} serverUrl - URL do servidor ATProtocol
+ * @param {string} accessToken - Token de acesso para autenticação
+ * @param {string} accountDid - DID ou handle do autor do post
+ * @param {string} content - Conteúdo do post
+ * @returns {Promise} Dados do post criado
+ */
+export async function createPost(serverUrl, accessToken, accountDid, content) {
+  const client = createAuthClient(serverUrl, accessToken)
+  const response = await client.post('/xrpc/com.atproto.repo.createRecord', {
+    repo: accountDid,
+    collection: 'app.bsky.feed.post',
+    record: {
+      text: content,
+      createdAt: new Date().toISOString(),
+    },
+  })
+  return response.data
+}
+
+export async function repostPost(serverUrl, accessToken, accountDid, postUri, postCid) {
+  const client = createAuthClient(serverUrl, accessToken)
+  const response = await client.post('/xrpc/com.atproto.repo.createRecord', {
+    repo: accountDid,
+    collection: 'app.bsky.feed.repost',
+    record: {
+      subject: {
+        uri: postUri,
+        cid: postCid,
+      },
+      createdAt: new Date().toISOString(),
+    },
+  })
+  return response.data
+}
+
+export async function unrepostPost(serverUrl, accessToken, accountDid, repostUri) {
+  const client = createAuthClient(serverUrl, accessToken)
+  // Parse the repost URI to get repo and rkey
+  const rkey = repostUri.replace('at://', '').split('/').filter(Boolean).at(-1) || ''
+  const response = await client.post('/xrpc/com.atproto.repo.deleteRecord', {
+    repo: accountDid,
+    collection: 'app.bsky.feed.repost',
+    rkey: rkey,
   })
   return response.data
 }

@@ -5,18 +5,13 @@
         v-if="profileData.banner"
         :src="profileData.banner"
         alt="Cover"
-        class="w-full max-h-64 object-cover md:rounded-t-lg"
+        class="w-full h-64 object-cover md:rounded-t-lg"
       />
-      <div v-else class="w-full h-32 bg-capivara-stone/10 rounded-t-lg"></div>
+      <div v-else class="w-full h-64 bg-capivara-stone/10 rounded-t-lg"></div>
     </div>
     <div class="absolute -bottom-10 left-5 z-10">
-      <div
-        class="w-fit h-fit bg-white/20 rounded-full flex items-center justify-center ring-4 ring-white"
-      >
-        <router-link
-          v-if="profileData?.handle"
-          :to="`/${profileData?.handle}/profile`"
-        >
+      <div class="w-fit h-fit bg-white/20 rounded-full flex items-center justify-center ring-4 ring-white">
+        <router-link v-if="profileData?.handle" :to="`/${profileData?.handle}/profile`">
           <img
             v-if="profileData.avatar"
             :src="profileData.avatar"
@@ -29,27 +24,20 @@
   </div>
   <div class="flex items-center justify-between mt-14 px-4">
     <div>
-      <h2 class="text-2xl font-bold mb-2 text-black/80">
-        <router-link
-          v-if="profileData?.handle"
-          :to="`/${profileData?.handle}/profile`"
-          class="hover:underline"
-        >
-          {{ profileData.displayName }}
+      <div class="flex items-center">
+        <router-link v-if="profileData?.handle" :to="`/${profileData?.handle}/profile`" class="flex items-baseline">
+          <h2 class="text-2xl font-bold mb-2 text-black/80 hover:underline">
+            {{ profileData.displayName }}
+          </h2>
+          <span class="text-sm text-gray-500 ml-1">{{ profileData.handle ? `(@${profileData.handle})` : '' }}</span>
         </router-link>
-      </h2>
+      </div>
       <p class="text-black/70 mb-2">
-        <router-link
-          :to="`/${profileData?.handle}/followers`"
-          class="hover:underline"
-        >
+        <router-link :to="`/${profileData?.handle}/followers`" class="hover:underline">
           {{ statsData.followers }} seguidores</router-link
         >
         •
-        <router-link
-          :to="`/${profileData?.handle}/following`"
-          class="hover:underline"
-        >
+        <router-link :to="`/${profileData?.handle}/following`" class="hover:underline">
           {{ statsData.following }} seguindo</router-link
         >
         • {{ statsData.posts }} posts
@@ -60,18 +48,18 @@
 </template>
 
 <script setup>
-import { toRefs } from "vue";
-import { useProfile } from "@/composables/useProfile";
-import ParsedPost from "@/components/ParsedPost.vue";
+import { toRefs } from 'vue'
+import { useProfile } from '@/composables/useProfile'
+import ParsedPost from '@/components/ParsedPost.vue'
 
 const props = defineProps({
   did: {
     type: String,
     default: null,
   },
-});
+})
 
-const { did } = toRefs(props);
+const { did } = toRefs(props)
 
-const { profileData, statsData } = useProfile(did);
+const { profileData, statsData } = useProfile(did)
 </script>

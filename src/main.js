@@ -16,6 +16,7 @@ const updateSW = registerSW({
   onOfflineReady() {
     // console.log("App pronto para uso offline");
   },
+  immediate: true,
 })
 
 const app = createApp(App)

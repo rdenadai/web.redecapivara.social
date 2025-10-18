@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 @theme {
   --color-capivara-brown: #7a5c3e;
@@ -20,20 +20,35 @@
 @layer components {
   .btn-primary {
     @apply bg-capivara-green-lake text-white px-6 py-3 rounded-lg font-medium 
-           hover:opacity-90 transition-all duration-200 active:scale-95
-           focus:outline-none focus:ring-2 focus:ring-capivara-green-lake focus:ring-offset-2;
+            hover:opacity-90 transition-all duration-200 active:scale-95
+            focus:outline-none focus:ring-2 focus:ring-capivara-green-lake focus:ring-offset-2 cursor-pointer;
   }
 
   .btn-secondary {
     @apply bg-capivara-sky-blue text-white px-6 py-3 rounded-lg font-medium 
-           hover:opacity-90 transition-all duration-200 active:scale-95
-           focus:outline-none focus:ring-2 focus:ring-capivara-sky-blue focus:ring-offset-2;
+            hover:opacity-90 transition-all duration-200 active:scale-95
+            focus:outline-none focus:ring-2 focus:ring-capivara-sky-blue focus:ring-offset-2 cursor-pointer;
+  }
+
+  .btn-outline {
+    @apply bg-transparent border-2 border-capivara-brown text-capivara-brown 
+            px-6 py-3 rounded-lg font-medium  hover:bg-capivara-brown hover:text-white transition-all 
+            duration-200 active:scale-95 focus:outline-none focus:ring-2 focus:ring-capivara-brown 
+            focus:ring-offset-2 cursor-pointer;
+  }
+
+  .btn-no-outline {
+    @apply bg-transparent text-capivara-brown px-6 py-3 rounded-lg font-medium  transition-all duration-200 active:scale-95 focus:outline-none focus:ring-2 focus:ring-capivara-brown focus:ring-offset-2 cursor-pointer;
+  }
+
+  .btn-disabled {
+    @apply bg-gray-400 text-white px-6 py-3 rounded-lg font-medium cursor-not-allowed;
   }
 
   .input-field {
     @apply w-full px-4 py-3 rounded-lg border border-gray-300 
-           focus:outline-none focus:ring-2 focus:ring-capivara-sky-blue focus:border-transparent
-           transition-all duration-200 bg-white;
+            focus:outline-none focus:ring-2 focus:ring-capivara-sky-blue focus:border-transparent
+            transition-all duration-200 bg-white;
   }
 
   .card {

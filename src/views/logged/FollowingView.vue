@@ -11,9 +11,16 @@
             <div
               v-for="person in following"
               :key="person.did"
-              class="flex flex-col items-start justify-between p-4 bg-white"
+              class="flex flex-col items-start justify-between px-4 bg-white"
             >
-              <div class="flex items-start">
+              <div class="items-start">
+                <span
+                  v-if="person?.viewer?.followedBy"
+                  class="inline-flex bg-gray-400/10 px-2 py-1 text-xs font-medium text-gray-400 mb-4"
+                  title="Essa pessoa também te segue"
+                >
+                  Segue você
+                </span>
                 <div class="flex items-start space-x-4">
                   <img
                     v-if="person.avatar"
@@ -39,19 +46,9 @@
                     ></p>
                   </div>
                 </div>
-
-                <div class="flex flex-col items-end gap-2">
-                  <span
-                    v-if="followersSet.has(person.did)"
-                    class="text-xs bg-capivara-stone/50 text-white px-2 py-1 rounded-full"
-                    title="Essa pessoa também te segue"
-                  >
-                    Segue você
-                  </span>
-                </div>
               </div>
               <!-- Separator -->
-              <div class="flex border-t border-capivara-stone/10 w-full mt-4"></div>
+              <div class="flex border-t border-capivara-stone/20 w-full mt-4"></div>
             </div>
             <p v-if="following.length === 0 && !loadingMore" class="text-capivara-stone/80">
               Você ainda não segue ninguém.
@@ -100,10 +97,9 @@ const cursor = ref(null)
 const loadingMore = ref(false)
 const noMore = ref(false)
 
-// Keep a set of follower DIDs to detect mutual follows ("Segue você")
 const followersSet = ref(new Set())
 
-async function fetchInitialFollowing() {
+const fetchInitialFollowing = async () => {
   if (!profileData.value) {
     router.push('/')
     return
@@ -111,14 +107,12 @@ async function fetchInitialFollowing() {
 
   loadingMore.value = true
   try {
-    // Load the people this account follows
     const response = await getFollows(authStore.server, authStore.accessToken, did.value || authStore.did, 100)
 
     following.value = response.follows || []
     cursor.value = response.cursor || null
     noMore.value = !cursor.value
 
-    // Also fetch followers (small set) to detect mutual follows
     try {
       const resp2 = await getFollowers(authStore.server, authStore.accessToken, did.value || authStore.did, 100)
       const list = resp2.followers || []
@@ -160,7 +154,7 @@ const loadMoreFollowing = async () => {
   }
 }
 
-function onScroll() {
+const onScroll = () => {
   if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 500) {
     loadMoreFollowing()
   }
