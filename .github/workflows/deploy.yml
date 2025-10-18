@@ -38,7 +38,6 @@ jobs:
           mkdir -p ~/.ssh
           echo "${{ secrets.VM_SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
-          ssh-keygen -l -f ~/.ssh/id_rsa || { echo "Invalid SSH key"; exit 1; }
           ssh-keyscan -p ${{ secrets.SSH_PORT }} -H "${{ secrets.VM_IP }}" >> ~/.ssh/known_hosts 2>/dev/null || true
 
       - name: Deploy dist/ to VM:/pds
