@@ -167,7 +167,7 @@ const removeRepost = async () => {
     post.value.viewer.repost = null
     showRepostMenu.value = false
   } catch (error) {
-    toast.error('Erro ao remover repost:', error)
+    toast.error(`Erro ao remover repost: ${error.message}`)
   }
 }
 
