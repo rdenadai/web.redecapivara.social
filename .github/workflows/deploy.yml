@@ -8,6 +8,7 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    environment: MagaluDeploy
 
     steps:
       - name: Checkout repository
@@ -16,6 +17,21 @@ jobs:
       - name: Run build script
         run: |
           ./build.sh
+
+      - name: Validate secrets
+        run: |
+          if [ -z "${{ secrets.VM_SSH_PRIVATE_KEY }}" ]; then
+            echo "Error: VM_SSH_PRIVATE_KEY secret is not set"
+            exit 1
+          fi
+          if [ -z "${{ secrets.VM_IP }}" ]; then
+            echo "Error: VM_IP secret is not set"
+            exit 1
+          fi
+          if [ -z "${{ secrets.VM_USER }}" ]; then
+            echo "Error: VM_USER secret is not set"
+            exit 1
+          fi
 
       - name: Set up SSH key
         run: |
