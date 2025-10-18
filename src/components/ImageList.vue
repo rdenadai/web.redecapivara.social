@@ -1,5 +1,5 @@
 <template>
-  <div v-if="images?.length" class="max-w-xl mt-2 gap-2">
+  <div v-if="images?.length" class="max-w-xl mt-2 gap-1 flex flex-wrap">
     <a
       v-for="(image, idx) in props.images"
       :key="image.fullsize || image.thumb"

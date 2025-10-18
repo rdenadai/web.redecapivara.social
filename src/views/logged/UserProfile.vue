@@ -1,26 +1,14 @@
 <template>
-  <div class="min-h-screen bg-capivara-off-white">
+  <div class="relative min-h-screen bg-capivara-off-white">
     <MenuView />
     <!-- Main Content -->
-    <main class="max-w-7xl mx-auto md:px-4">
-      <div v-if="did" class="card mb-8 bg-gradient-to-r text-white">
+    <main class="max-w-7xl mx-auto md:px-4 md:py-4">
+      <div v-if="did" class="relative bg-white mb-8 bg-gradient-to-r text-white md:shadow-black/20 md:shadow-lg">
         <ProfileView :did="did" />
         <!-- Separator -->
         <div class="mt-5 pt-6 border-t border-capivara-stone/10"></div>
         <div class="flex items-center gap-4 text-capivara-brown/80 px-4">
           <FeedView :did="did" />
-        </div>
-        <div class="mt-8">
-          <div class="from-capivara-brown/5 to-capivara-green-lake/5">
-            <div class="text-center">
-              <!-- Footer -->
-              <div class="mt-5 pt-6 border-t border-capivara-stone/10">
-                <p class="text-xs text-capivara-stone/50 mt-1">
-                  💚 Apoie o Projeto, cada contribuição ajuda a manter o projeto rodando! 🙏
-                </p>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
       <div v-else class="card p-6 bg-white">
@@ -30,6 +18,7 @@
         </p>
       </div>
     </main>
+    <CreatePostModal />
   </div>
 </template>
 
@@ -39,6 +28,7 @@ import { useRoute } from 'vue-router'
 import ProfileView from './ProfileView.vue'
 import MenuView from '../MenuView.vue'
 import FeedView from './FeedView.vue'
+import CreatePostModal from './modal/CreatePostModal.vue'
 
 const route = useRoute()
 

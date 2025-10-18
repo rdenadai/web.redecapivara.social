@@ -60,15 +60,38 @@
 
             <div>
               <label for="password" class="block text-sm font-medium text-capivara-stone mb-2"> Senha: </label>
-              <input
-                id="password"
-                v-model="form.password"
-                type="password"
-                required
-                placeholder="••••••••••••••••"
-                class="input-field"
-                :disabled="loading"
-              />
+              <div class="relative">
+                <div>
+                  <input
+                    v-if="!showPassword"
+                    v-model="form.password"
+                    :disabled="loading"
+                    type="password"
+                    placeholder="••••••••"
+                    class="input-field"
+                    maxlength="32"
+                    required
+                  />
+                  <input
+                    v-else
+                    v-model="form.password"
+                    :disabled="loading"
+                    type="text"
+                    placeholder="••••••••"
+                    class="input-field"
+                    maxlength="32"
+                    required
+                  />
+                </div>
+                <div
+                  class="w-4 h-4 cursor-pointer absolute right-8 bottom-4 -translate-y-1/2"
+                  @click="showHidePassword"
+                  :title="showPassword ? 'Ocultar senha' : 'Mostrar senha'"
+                >
+                  <EyeSlashIcon v-if="!showPassword" class="w-4 h-4 text-gray-300" />
+                  <EyeIcon v-else class="w-4 h-4 text-gray-300" />
+                </div>
+              </div>
             </div>
 
             <div>
@@ -191,11 +214,12 @@ import { useAuthStore } from '@/stores/auth'
 import { useRouter } from 'vue-router'
 import { useInstallPrompt } from '@/composables/useInstallPrompt'
 import { useToast } from '@/composables/useToast'
+import EyeIcon from '@/components/icons/EyeIcon.vue'
+import EyeSlashIcon from '@/components/icons/EyeSlashIcon.vue'
 
 const authStore = useAuthStore()
 const router = useRouter()
 const { success, error: showError } = useToast()
-
 const { isInstallable, promptInstall } = useInstallPrompt()
 
 const form = reactive({
@@ -204,6 +228,7 @@ const form = reactive({
   server: import.meta.env.VITE_DEFAULT_SERVER_URL || 'https://redecapivara.social',
 })
 
+const showPassword = ref(false)
 const loading = ref(false)
 const errorMessage = ref('')
 const pixCodeInput = ref(null)
@@ -215,6 +240,10 @@ const pixCode =
 const pixQRCode = computed(() => {
   return `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(pixCode)}`
 })
+
+const showHidePassword = () => {
+  showPassword.value = !showPassword.value
+}
 
 async function handleLogin() {
   loading.value = true

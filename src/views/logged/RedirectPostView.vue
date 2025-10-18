@@ -7,8 +7,8 @@
       <div v-if="error" class="text-center text-red-500">{{ error }}</div>
       <div v-if="!loading && !error && !post" class="text-center text-gray-500">Nenhum post encontrado.</div>
       <div v-if="!loading && !error && post">
-        <div class="card mb-8 bg-gradient-to-r text-white">
-          <div class="flex flex-col">
+        <div class="relative bg-white mb-8 bg-gradient-to-r text-white md:shadow-black/20 md:shadow-lg">
+          <div class="flex flex-col px-2 py-4">
             <div class="flex items-start space-x-4">
               <img
                 v-if="profileData?.avatar"
@@ -26,10 +26,12 @@
                   <span class="text-sm text-capivara-stone/60 font-mono">@{{ profileData?.handle }}</span>
                   <span class="text-sm text-capivara-stone/60 font-mono"
                     ><span class="hidden md:inline-block">•&nbsp;</span
-                    >{{ new Date(post.value.createdAt).toLocaleDateString() }}</span
+                    >{{ numberOfDaysHoursOrMinutesAgo(post.value.createdAt) }}</span
                   >
                 </div>
-                <ParsedPost :content="post.value?.text" :embed="post.value.embed" />
+                <div class="text-black">
+                </div>
+                <ParsedPost :content="post.value?.text" :embed="post.value?.embed" />
                 <ImageList v-if="post.value?.embed?.images" :images="post.value.embed.images" />
                 <ExternalElement v-if="post?.value?.embed?.external" :external="post.value.embed.external" />
                 <SocialPostActions :post="post" />
@@ -48,7 +50,12 @@ import { useRoute } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 import { useProfile } from '@/composables/useProfile'
 import { getPost } from '@/services/atproto'
+import { numberOfDaysHoursOrMinutesAgo } from '@/utils'
 import MenuView from '../MenuView.vue'
+import ParsedPost from '@/components/ParsedPost.vue'
+import ImageList from '@/components/ImageList.vue'
+import ExternalElement from '@/components/ExternalElement.vue'
+import SocialPostActions from '@/components/SocialPostActions.vue'
 
 const route = useRoute()
 const authStore = useAuthStore()

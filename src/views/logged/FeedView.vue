@@ -6,7 +6,7 @@
       <div v-if="post?.reply === undefined || post?.reason?.$type.includes('#reasonRepost')" class="mb-6">
         <div
           v-if="post?.reason?.$type.includes('#reasonRepost')"
-          class="inline-flex rounded-md bg-gray-400/10 px-2 py-1 text-xs font-medium text-gray-400 inset-ring inset-ring-gray-400 mb-4"
+          class="inline-flex bg-gray-400/10 px-2 py-1 text-xs font-medium text-gray-400 mb-4"
         >
           <RepostIcon class="inline w-[1.25em] h-[1.25em] text-capivara-stone/60 mr-1" />
           <span
@@ -20,7 +20,7 @@
           >
         </div>
         <PostView :post="post.post" :showSocialActions="true" />
-        <div class="flex border-t border-capivara-stone/10 w-full mt-4"></div>
+        <div class="flex border-t border-capivara-stone/20 w-full mt-4"></div>
       </div>
     </div>
     <div v-if="loadingMore" class="text-center py-4">Carregando...</div>
@@ -114,6 +114,7 @@ watchEffect(async () => {
   if (did?.value) {
     window.scrollTo({ top: 0, behavior: 'smooth' })
     await fetchInitialFeed()
+    window.scrollTo({ top: 0, behavior: 'instant' })
   }
 })
 
