@@ -39,7 +39,8 @@ jobs:
           echo "${{ secrets.VM_SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan -H "${{ secrets.VM_IP }}" >> ~/.ssh/known_hosts
+        shell: bash
 
       - name: Deploy dist/ to VM:/pds
         run: |
-          rsync -avz --delete -e "ssh -i ~/.ssh/id_rsa" ./dist/ ${{ secrets.VM_USER }}@${{ secrets.VM_IP }}:/pds/web/
+          rsync -avz --delete -e "ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no" ./dist/ ${{ secrets.VM_USER }}@${{ secrets.VM_IP }}:/pds/web/
