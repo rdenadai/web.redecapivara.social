@@ -76,7 +76,6 @@ watchEffect(async () => {
     error.value = null
     try {
       const response = await getPost(authStore.server, authStore.accessToken, handle.value, postId.value)
-      console.log('Fetched post:', response)
       post.value = response || null
     } catch (err) {
       console.error('Error fetching post:', err)
