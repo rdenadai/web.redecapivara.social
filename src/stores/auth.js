@@ -105,7 +105,6 @@ export const useAuthStore = defineStore('auth', () => {
         }),
         false
       )
-      console.log('Token atualizado automaticamente')
     } catch (e) {
       console.error('Erro ao atualizar token automaticamente:', e)
       logout()
