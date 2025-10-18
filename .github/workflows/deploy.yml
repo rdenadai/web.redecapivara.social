@@ -47,4 +47,8 @@ jobs:
 
       - name: Deploy dist/ to VM:/pds
         run: |
-          rsync -avz --delete -e "ssh -p ${{ secrets.SSH_PORT }} -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no" ./dist/ ${{ secrets.VM_USER }}@${{ secrets.VM_IP }}:/pds/web/
+          rsync -avz --delete -e "ssh -p ${{ secrets.SSH_PORT }} -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no" ./dist/ ${{ secrets.VM_USER }}@${{ secrets.VM_IP }}:/tmp/web_deploy/
+
+      - name: Move deployed files to final location
+        run: |
+          ssh -p ${{ secrets.SSH_PORT }} -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no ${{ secrets.VM_USER }}@${{ secrets.VM_IP }} "sudo cp -a /tmp/web_deploy/* /pds/web/"
