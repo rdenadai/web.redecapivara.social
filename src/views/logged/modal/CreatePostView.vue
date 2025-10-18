@@ -192,7 +192,6 @@ const submitPost = async () => {
 
   try {
     isSendingMessage.value = true
-    console.log(authStore.server, authStore)
     await createPost(authStore.server, authStore.accessToken, authStore.did, postContent.value.trim())
     toast.success('Publicação criada com sucesso!')
   } catch (error) {
