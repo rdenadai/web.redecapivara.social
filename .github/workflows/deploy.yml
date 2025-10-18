@@ -37,7 +37,9 @@ jobs:
         run: |
           mkdir -p ~/.ssh
           echo "${{ secrets.VM_SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          echo "Saving key into ~/.ssh/id_rsa"
           chmod 600 ~/.ssh/id_rsa
+          echo "Enable key with chmod 600"
           ssh-keyscan -H "${{ secrets.VM_IP }}" >> ~/.ssh/known_hosts
 
       - name: Deploy dist/ to VM:/pds
