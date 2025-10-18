@@ -41,10 +41,6 @@ jobs:
           ssh-keygen -l -f ~/.ssh/id_rsa || { echo "Invalid SSH key"; exit 1; }
           ssh-keyscan -p ${{ secrets.SSH_PORT }} -H "${{ secrets.VM_IP }}" >> ~/.ssh/known_hosts 2>/dev/null || true
 
-      - name: Test SSH connection
-        run: |
-          ssh -vvv -p ${{ secrets.SSH_PORT }} -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no ${{ secrets.VM_USER }}@${{ secrets.VM_IP }} "echo 'SSH connection successful'"
-
       - name: Deploy dist/ to VM:/pds
         run: |
           rsync -avz --delete -e "ssh -p ${{ secrets.SSH_PORT }} -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no" ./dist/ ${{ secrets.VM_USER }}@${{ secrets.VM_IP }}:/tmp/web_deploy/
