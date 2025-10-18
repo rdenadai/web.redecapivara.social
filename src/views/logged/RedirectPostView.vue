@@ -30,7 +30,6 @@
                   >
                 </div>
                 <div class="text-black">
-                  {{ post }}
                 </div>
                 <ParsedPost :content="post.value?.text" :embed="post.value?.embed" />
                 <ImageList v-if="post.value?.embed?.images" :images="post.value.embed.images" />
