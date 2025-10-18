@@ -37,9 +37,12 @@ jobs:
         run: |
           mkdir -p ~/.ssh
           echo "${{ secrets.VM_SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-          echo "Saving key into ~/.ssh/id_rsa"
           chmod 600 ~/.ssh/id_rsa
-          echo "Enable key with chmod 600"
+          
+          # Start SSH agent and add key with passphrase
+          eval $(ssh-agent -s)
+          echo "${{ secrets.SSH_KEY_PASSPHRASE }}" | ssh-add ~/.ssh/id_rsa
+          
           ssh-keyscan -p ${{ secrets.SSH_PORT }} -H "${{ secrets.VM_IP }}" >> ~/.ssh/known_hosts
 
       - name: Test SSH connection
