@@ -85,7 +85,7 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   const autoRefreshToken = async () => {
-    if (!server.value || !accessToken.value || !accessToken.value) return
+    if (!server.value || !accessToken.value || !refreshToken.value) return
     try {
       const data = await refreshAuthClientToken(server.value, accessToken.value, refreshToken.value)
       console.log('Resposta ao atualizar token:', data)
