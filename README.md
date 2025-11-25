@@ -4,10 +4,6 @@
   # Rede Capivara - Frontend
   
   Frontend moderno e PWA para o cliente ATProtocol da Rede Capivara.
-  
-  ### ⚠️ Work in Progress
-  
-  > Este projeto está em desenvolvimento ativo. Recursos, API e estrutura podem mudar significativamente.
 </div>
 
 ### Este projeto esta hospedado em [web.redecapivara.social](https://git.rdenadai.dev/rdenadai/web.redecapivara.social)
