@@ -10,4 +10,4 @@
   > Este projeto está em desenvolvimento ativo. Recursos, API e estrutura podem mudar significativamente.
 </div>
 
-### ESTE PROJETO É HOSPEDADO AGORA EM https://git.rdenadai.dev/rdenadai/web.redecapivara.social
+### Este projeto esta hospedado em [web.redecapivara.social](https://git.rdenadai.dev/rdenadai/web.redecapivara.social)
