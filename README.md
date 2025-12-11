@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="public/capivara-icon.svg" alt="Rede Capivara Logo" width="200"/>
+  <img src="https://git.rdenadai.dev/rdenadai/web.redecapivara.social/raw/branch/main/public/cover.jpg" alt="Rede Capivara Logo" />
   
   # Rede Capivara - Frontend
   
